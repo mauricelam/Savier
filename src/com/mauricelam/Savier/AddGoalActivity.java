@@ -1,0 +1,61 @@
+package com.mauricelam.Savier;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+/**
+ * User: mauricelam
+ * Date: 15/11/13
+ * Time: 2:35 PM
+ */
+public class AddGoalActivity extends Activity {
+    private boolean enableAddGoal = false;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_goal);
+
+        WebView webView = (WebView) findViewById(R.id.webview);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://www.amazon.com");
+
+        // FIXME: Should be set to enabled only if we detect Amazon item ID
+        setAddGoalEnabled(true);
+    }
+
+    private void setAddGoalEnabled(boolean enabled) {
+        this.enableAddGoal = enabled;
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_goal_menu, menu);
+
+        menu.findItem(R.id.action_select_goal).setEnabled(this.enableAddGoal);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_select_goal:
+                Intent intent = new Intent(this, ConfirmGoalActivity.class);
+                intent.putExtra("goal", "some goal here");
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+}

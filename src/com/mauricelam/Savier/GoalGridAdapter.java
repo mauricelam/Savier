@@ -33,18 +33,18 @@ public class GoalGridAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
+        ImageView goalView;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            goalView = new GoalView(mContext);
+            goalView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            goalView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            goalView.setPadding(8, 8, 8, 8);
         } else {
-            imageView = (ImageView) convertView;
+            goalView = (GoalView) convertView;
         }
 
-        imageView.setImageResource(mThumbIds[position]);
-        return imageView;
+        goalView.setImageResource(mThumbIds[position]);
+        return goalView;
     }
 
     // references to our images

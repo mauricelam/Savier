@@ -6,35 +6,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
 
-public class SaveActivity extends Activity {
-
-    @Override
+/**
+ * User: mauricelam
+ * Date: 15/11/13
+ * Time: 3:11 PM
+ */
+public class ConfirmGoalActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-
-        // Set up the grid
-        GridView gridview = (GridView) findViewById(R.id.goalGrid);
-        gridview.setAdapter(new GoalGridAdapter(this));
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(SaveActivity.this, "Item number " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+        setContentView(R.layout.confirm_add_goal);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mainmenu, menu);
+        inflater.inflate(R.menu.confirm_goal_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -42,15 +30,14 @@ public class SaveActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_add_goal:
-                Intent intent = new Intent(this, AddGoalActivity.class);
+            case R.id.action_confirm_goal:
+                Intent intent = new Intent(this, SaveActivity.class);
+                intent.putExtra("add", "dummy_goal");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
-
-

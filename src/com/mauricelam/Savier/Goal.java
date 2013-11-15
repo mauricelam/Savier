@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -15,7 +16,7 @@ import java.net.URL;
  * Date: 15/11/13
  * Time: 12:42 PM
  */
-public abstract class Goal {
+public abstract class Goal implements Serializable {
 
     // All money values should be in terms of cents
     private int target;
