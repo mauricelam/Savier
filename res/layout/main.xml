@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
+    <GridView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, SaveActivity"
-            />
-</LinearLayout>
+            android:id="@+id/goalGrid"
+            android:layout_alignParentLeft="true" android:layout_alignParentRight="true"
+            android:numColumns="auto_fit"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            android:columnWidth="90dp"/>
+</RelativeLayout>
 
