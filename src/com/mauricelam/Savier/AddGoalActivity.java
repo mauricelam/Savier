@@ -17,6 +17,8 @@ import android.webkit.WebViewClient;
 public class AddGoalActivity extends Activity {
     private boolean enableAddGoal = false;
 
+    // TODO: show a loading indicator while the web page is loading (instead of blank page)
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_goal);

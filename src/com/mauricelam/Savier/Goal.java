@@ -29,10 +29,8 @@ public abstract class Goal implements Serializable {
     public abstract String getImageUrl();
 
     public Drawable getImageDrawable() {
-        String imageUrl = getImageUrl();
         try {
-            Drawable d = drawableFromUrl(imageUrl);
-            return d;
+            return drawableFromUrl(getImageUrl());
         } catch (IOException e) {
             return null;
         }
@@ -47,6 +45,22 @@ public abstract class Goal implements Serializable {
 
         x = BitmapFactory.decodeStream(input);
         return new BitmapDrawable(x);
+    }
+
+    public void setSaved(int saved) {
+        this.saved = saved;
+    }
+
+    public int getSaved() {
+        return saved;
+    }
+
+    public int getTarget() {
+        return target;
+    }
+
+    public double getPercentage() {
+        return saved / (double) target;
     }
 
 }

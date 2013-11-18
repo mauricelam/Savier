@@ -32,7 +32,7 @@ public class ConfirmGoalActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_confirm_goal:
                 Intent intent = new Intent(this, SaveActivity.class);
-                intent.putExtra("add", "dummy_goal");
+                intent.putExtra("add_goal", true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;

@@ -13,21 +13,46 @@ import android.widget.Toast;
 
 public class SaveActivity extends Activity {
 
+    GoalGridAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.save_activity);
 
-
+        adapter = GoalGridAdapter.restore(this);
         // Set up the grid
         GridView gridview = (GridView) findViewById(R.id.goalGrid);
-        gridview.setAdapter(new GoalGridAdapter(this));
+        gridview.setAdapter(adapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Toast.makeText(SaveActivity.this, "Item number " + position, Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.parseIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        this.parseIntent(intent);
+    }
+
+    private void parseIntent(Intent intent) {
+        if (intent.hasExtra("add_goal")) {
+            // TODO: make a real goal out of extra info
+            Goal goal = new AmazonGoal(10000, "blah", "blah", "blah");
+            goal.setSaved((int) (Math.random() * 10000));
+            adapter.add(goal);
+            intent.removeExtra("add_goal");
+        }
     }
 
     @Override

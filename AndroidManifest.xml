@@ -13,7 +13,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AddGoalActivity"/>
-        <activity android:name=".ConfirmGoalActivity"/>
+        <activity android:name=".AddGoalActivity" android:parentActivityName="com.mauricelam.Savier.SaveActivity"/>
+        <activity android:name=".ConfirmGoalActivity" android:parentActivityName="com.mauricelam.Savier.AddGoalActivity"/>
     </application>
 </manifest>
