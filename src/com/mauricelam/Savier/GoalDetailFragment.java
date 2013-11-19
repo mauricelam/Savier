@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -29,13 +30,23 @@ public class GoalDetailFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        View view = inflater.inflate(R.layout.goal_detail_dialog, container);
+        View view = inflater.inflate(R.layout.goal_detail_fragment, container);
 
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         nameTextView.setText(goal.getName());
 
         GoalView goalView = (GoalView) view.findViewById(R.id.goalview);
         goalView.setGoal(goal);
+
+        Button deleteBtn = (Button) view.findViewById(R.id.delete_button);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoalList list = GoalList.instance(getActivity());
+                list.remove(goal);
+                GoalDetailFragment.this.dismiss();
+            }
+        });
 
         return view;
     }

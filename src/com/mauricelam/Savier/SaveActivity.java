@@ -21,7 +21,7 @@ public class SaveActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.save_activity);
 
-        adapter = GoalGridAdapter.restore(this);
+        adapter = new GoalGridAdapter(this);
         // Set up the grid
         GridView gridview = (GridView) findViewById(R.id.goalGrid);
         gridview.setAdapter(adapter);
@@ -51,7 +51,7 @@ public class SaveActivity extends Activity {
             // TODO: make a real goal out of extra info
             Goal goal = AmazonGoal.fromId("blah");
             goal.setSaved((int) (Math.random() * 10000));
-            adapter.add(goal);
+            adapter.getList().add(goal);
             intent.removeExtra("add_goal");
         }
     }

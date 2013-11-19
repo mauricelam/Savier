@@ -13,7 +13,6 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Goal Name"
             android:id="@+id/name"
             android:layout_toRightOf="@+id/goalview" android:layout_alignTop="@+id/goalview"
             android:layout_alignBottom="@+id/goalview" android:gravity="center_vertical|left" android:textSize="30sp"
@@ -25,4 +24,18 @@
             android:id="@+id/description"
             android:layout_alignParentLeft="true" android:layout_below="@+id/goalview"
             android:layout_alignRight="@+id/name" android:padding="5dp"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/description" android:gravity="right">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:id="@+id/delete_button" android:layout_gravity="center"/>
+    </LinearLayout>
 </RelativeLayout>

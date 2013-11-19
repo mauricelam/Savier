@@ -23,12 +23,17 @@ public class AddGoalActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_goal);
 
+        // FIXME: Should be set to enabled only if we detect Amazon item ID
+        setAddGoalEnabled(true);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://www.amazon.com");
-
-        // FIXME: Should be set to enabled only if we detect Amazon item ID
-        setAddGoalEnabled(true);
     }
 
     private void setAddGoalEnabled(boolean enabled) {

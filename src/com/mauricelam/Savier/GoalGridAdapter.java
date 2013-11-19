@@ -11,44 +11,26 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * User: mauricelam
  * Date: 15/11/13
  * Time: 2:16 AM
  */
-public class GoalGridAdapter extends BaseAdapter {
-    private static final Type GOAL_LIST_TYPE = new TypeToken<ArrayList<Goal>>() {}.getType();
+public class GoalGridAdapter extends BaseAdapter implements Observer {
     private Context context;
-    private ArrayList<Goal> list;
+    private GoalList list;
 
     public GoalGridAdapter(Context context) {
         this.context = context;
-        list = new ArrayList<Goal>();
+        this.list = GoalList.instance(context);
+        this.list.addObserver(this);
     }
 
-    public GoalGridAdapter(Context context, ArrayList<Goal> list) {
-        this.context = context;
-        this.list = list;
-    }
-
-    public void add(Goal goal) {
-        list.add(goal);
-        SharedPreferences prefs = context.getSharedPreferences("goals", Context.MODE_PRIVATE);
-        Storage storage = new Storage(prefs);
-        storage.putObject("goals", list, GOAL_LIST_TYPE);
-    }
-
-    public static GoalGridAdapter restore(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("goals", Context.MODE_PRIVATE);
-        Storage storage = new Storage(prefs);
-        try {
-            ArrayList<Goal> list = (ArrayList<Goal>) storage.getObject("goals", GOAL_LIST_TYPE);
-            return new GoalGridAdapter(context, list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new GoalGridAdapter(context);
-        }
+    public GoalList getList() {
+        return list;
     }
 
     @Override
@@ -81,4 +63,9 @@ public class GoalGridAdapter extends BaseAdapter {
         return goalView;
     }
 
+    @Override
+    public void update(Observable observable, Object list) {
+        Log.e("Savier adapter", "Dataset changed");
+        this.notifyDataSetChanged();
+    }
 }
