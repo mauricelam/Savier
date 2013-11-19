@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,31 +22,16 @@ public abstract class Goal implements Serializable {
     // All money values should be in terms of cents
     private int target;
     private int saved = 0;
+    private String name;
+    private String url;
 
-    public Goal(int target) {
+    public Goal(String name, int target, String url) {
         this.target = target;
+        this.name = name;
+        this.url = url;
     }
 
-    public abstract String getImageUrl();
-
-    public Drawable getImageDrawable() {
-        try {
-            return drawableFromUrl(getImageUrl());
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private static Drawable drawableFromUrl(String url) throws IOException {
-        Bitmap x;
-
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.connect();
-        InputStream input = connection.getInputStream();
-
-        x = BitmapFactory.decodeStream(input);
-        return new BitmapDrawable(x);
-    }
+    public abstract String getImageURL();
 
     public void setSaved(int saved) {
         this.saved = saved;
@@ -63,4 +49,19 @@ public abstract class Goal implements Serializable {
         return saved / (double) target;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

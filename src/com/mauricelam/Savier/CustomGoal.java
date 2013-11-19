@@ -7,17 +7,15 @@ package com.mauricelam.Savier;
  */
 public class CustomGoal extends Goal {
 
-    private String url;
     private String imageUrl;
 
-    public CustomGoal(int target, String url, String imageUrl) {
-        super(target);
-        this.url = url;
+    public CustomGoal(String name, int target, String url, String imageUrl) {
+        super(name, target, url);
         this.imageUrl = imageUrl;
     }
 
     @Override
-    public String getImageUrl() {
+    public String getImageURL() {
         return this.imageUrl;
     }
 
@@ -26,6 +24,6 @@ public class CustomGoal extends Goal {
         String imageUrl = "http://www.veryicon.com/icon/png/System/Sticker%20System/Customize.png";
         // FIXME ---------------
 
-        return new CustomGoal(target, url, imageUrl);
+        return new CustomGoal("Test custom goal", target, url, imageUrl);
     }
 }

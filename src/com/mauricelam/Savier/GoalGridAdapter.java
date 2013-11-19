@@ -57,7 +57,7 @@ public class GoalGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Goal getItem(int i) {
         return list.get(i);
     }
 

@@ -1,6 +1,7 @@
 package com.mauricelam.Savier;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class SaveActivity extends Activity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(SaveActivity.this, "Item number " + position, Toast.LENGTH_SHORT).show();
+                openGoalDetail(adapter.getItem(position));
             }
         });
 
@@ -48,7 +49,7 @@ public class SaveActivity extends Activity {
     private void parseIntent(Intent intent) {
         if (intent.hasExtra("add_goal")) {
             // TODO: make a real goal out of extra info
-            Goal goal = new AmazonGoal(10000, "blah", "blah", "blah");
+            Goal goal = AmazonGoal.fromId("blah");
             goal.setSaved((int) (Math.random() * 10000));
             adapter.add(goal);
             intent.removeExtra("add_goal");
@@ -74,6 +75,12 @@ public class SaveActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openGoalDetail(Goal goal) {
+        GoalDetailFragment detailFragment = GoalDetailFragment.newInstance(goal);
+        FragmentManager fragmentManager = getFragmentManager();
+        detailFragment.show(fragmentManager, "goal_detail_fragment");
     }
 
 }

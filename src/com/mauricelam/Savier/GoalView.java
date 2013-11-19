@@ -2,9 +2,17 @@ package com.mauricelam.Savier;
 
 import android.content.Context;
 import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * User: mauricelam
@@ -18,6 +26,8 @@ public class GoalView extends ImageView {
     private Paint progressPaint;
     private Paint maskPaint;
     private float strokeWidth;
+
+    private String imageURL;
 
     private static final Xfermode SRC_IN =  new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
 
@@ -46,8 +56,8 @@ public class GoalView extends ImageView {
 
     public void setGoal(Goal goal) {
         this.goal = goal;
-//        this.setImageDrawable(goal.getImageDrawable());
-        this.setImageResource(R.drawable.motox); // FIXME
+        this.setImageURL(goal.getImageURL());
+//        this.setImageResource(R.drawable.motox); // FIXME
     }
 
     public Goal getGoal() {
@@ -62,28 +72,73 @@ public class GoalView extends ImageView {
         final float halfHeight = height/2;
         final float radius = Math.min(halfWidth, halfHeight) - strokeWidth;
 
-        Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas imageCanvas = new Canvas(imageBitmap);
-        super.onDraw(imageCanvas);
+        if (this.goal != null) {
+            Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas imageCanvas = new Canvas(imageBitmap);
+            super.onDraw(imageCanvas);
 
-        Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas croppedCanvas = new Canvas(croppedBitmap);
-        maskPaint.setXfermode(null);
-        croppedCanvas.drawCircle(halfWidth, halfHeight, radius, maskPaint);
-        maskPaint.setXfermode(SRC_IN);
-        croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
+            Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas croppedCanvas = new Canvas(croppedBitmap);
+            maskPaint.setXfermode(null);
+            croppedCanvas.drawCircle(halfWidth, halfHeight, radius, maskPaint);
+            maskPaint.setXfermode(SRC_IN);
+            croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
 
-        canvas.drawBitmap(croppedBitmap, 0, 0, null);
+            canvas.drawBitmap(croppedBitmap, 0, 0, null);
 
-        imageBitmap.recycle();
-        croppedBitmap.recycle();
+            imageBitmap.recycle();
+            croppedBitmap.recycle();
+        }
 
         RectF circle = new RectF(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);
-        float angle = (float) (goal.getPercentage() * 360);
         progressPaint.setColor(Color.LTGRAY);
         canvas.drawArc(circle, 270, 360, false, progressPaint);
-        progressPaint.setColor(Color.RED);
-        canvas.drawArc(circle, 270, angle, false, progressPaint);
+
+        if (goal != null) {
+            float angle = (float) (goal.getPercentage() * 360);
+            progressPaint.setColor(HoloColor.BLUE_LIGHT);
+            canvas.drawArc(circle, 270, angle, false, progressPaint);
+        }
     }
 
+    private Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(getResources(), x);
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+        new ImageLoader().execute(imageURL);
+    }
+
+
+    private class ImageLoader extends AsyncTask<String, Void, Drawable> {
+
+        @Override
+        protected Drawable doInBackground(String... strings) {
+            try {
+                Drawable drawable = drawableFromUrl(strings[0]);
+                return drawable;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            super.onPostExecute(drawable);
+            GoalView.this.setImageDrawable(drawable);
+        }
+    }
 }

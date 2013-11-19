@@ -4,4 +4,12 @@
     <string name="add_goal">Add a goal</string>
     <string name="select_goal">Create goal with this item</string>
     <string name="confirm_goal">Add goal</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nunc augue, sagittis ut sagittis
+        ut, varius fringilla arcu. In hac habitasse platea dictumst. Nunc volutpat lectus et mauris sodales, vel
+        vestibulum augue fringilla. Cras ut enim semper, tincidunt ante vitae, molestie quam. Quisque semper est vel
+        velit gravida dictum. Mauris auctor pharetra malesuada. Sed et volutpat dolor. Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit. Pellentesque tempus aliquam lorem id rhoncus. Aenean in tincidunt odio, blandit
+        pharetra felis. Mauris sit amet risus purus. Cras est est, condimentum in mi vel, hendrerit tristique ipsum.
+        Quisque a elit a tortor porttitor pretium. Pellentesque blandit sed dui a adipiscing.
+    </string>
 </resources>
