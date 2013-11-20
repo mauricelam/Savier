@@ -39,12 +39,14 @@ public class GoalList extends Observable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (goalList.list == null) {
+            goalList.list = new ArrayList<Goal>();
+        }
         return goalList;
     }
 
     protected GoalList(Context context) {
         this.context = context;
-        this.list = new ArrayList<Goal>();
     }
 
     public boolean add(Goal goal) {
