@@ -25,7 +25,11 @@ public class GoalView extends ImageView {
 
     private Paint progressPaint;
     private Paint maskPaint;
+    private Paint whitePaint;
     private float strokeWidth;
+
+    private Canvas imageCanvas;
+    private Canvas croppedCanvas;
 
     private String imageURL;
 
@@ -52,6 +56,13 @@ public class GoalView extends ImageView {
         maskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         maskPaint.setStrokeWidth(0);
         maskPaint.setColor(Color.WHITE);
+
+        whitePaint = new Paint();
+        whitePaint.setStyle(Paint.Style.FILL);
+        whitePaint.setColor(Color.WHITE);
+
+        imageCanvas = new Canvas();
+        croppedCanvas = new Canvas();
     }
 
     public void setGoal(Goal goal) {
@@ -72,13 +83,15 @@ public class GoalView extends ImageView {
         final float halfHeight = height/2;
         final float radius = Math.min(halfWidth, halfHeight) - strokeWidth;
 
+        canvas.drawCircle(halfWidth, halfHeight, radius, whitePaint);
+
         if (this.goal != null) {
             Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas imageCanvas = new Canvas(imageBitmap);
+            imageCanvas.setBitmap(imageBitmap);
             super.onDraw(imageCanvas);
 
             Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas croppedCanvas = new Canvas(croppedBitmap);
+            croppedCanvas.setBitmap(croppedBitmap);
             maskPaint.setXfermode(null);
             croppedCanvas.drawCircle(halfWidth, halfHeight, radius, maskPaint);
             maskPaint.setXfermode(SRC_IN);
@@ -86,8 +99,8 @@ public class GoalView extends ImageView {
 
             canvas.drawBitmap(croppedBitmap, 0, 0, null);
 
-            imageBitmap.recycle();
-            croppedBitmap.recycle();
+//            imageBitmap.recycle();
+//            croppedBitmap.recycle();
         }
 
         RectF circle = new RectF(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);

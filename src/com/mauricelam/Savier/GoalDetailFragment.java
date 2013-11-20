@@ -48,6 +48,14 @@ public class GoalDetailFragment extends DialogFragment {
             }
         });
 
+        Button closeBtn = (Button) view.findViewById(R.id.close_button);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoalDetailFragment.this.dismiss();
+            }
+        });
+
         return view;
     }
 
