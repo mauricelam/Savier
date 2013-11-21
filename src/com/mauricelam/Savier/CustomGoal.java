@@ -9,6 +9,11 @@ public class CustomGoal extends Goal {
 
     private String imageUrl;
 
+    protected CustomGoal() {
+        // no-arg constructor for GSON
+        super();
+    }
+
     public CustomGoal(String name, int target, String url, String imageUrl) {
         super(name, target, url);
         this.imageUrl = imageUrl;

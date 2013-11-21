@@ -6,20 +6,25 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.DragEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * User: mauricelam
  * Date: 15/11/13
  * Time: 12:41 PM
  */
-public class GoalView extends ImageView {
+public class GoalView extends ImageView implements Observer {
 
     private Goal goal;
 
@@ -63,12 +68,32 @@ public class GoalView extends ImageView {
 
         imageCanvas = new Canvas();
         croppedCanvas = new Canvas();
+
+        this.setOnDragListener(new OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                if (dragEvent.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+                    Log.w("Savier drag", "start");
+                    if ("money".equals(dragEvent.getClipDescription().getLabel())) {
+                        return true;
+                    }
+                } else if (dragEvent.getAction() == DragEvent.ACTION_DROP) {
+                    Log.w("Savier drag", "drop");
+                    String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
+                    int amount = Integer.parseInt(stringAmount);
+                    Log.d("Savier save", amount + "");
+                    goal.setSaved(goal.getSaved() + amount);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void setGoal(Goal goal) {
         this.goal = goal;
         this.setImageURL(goal.getImageURL());
-//        this.setImageResource(R.drawable.motox); // FIXME
+        this.goal.addWeakObserver(this);
     }
 
     public Goal getGoal() {
@@ -132,6 +157,12 @@ public class GoalView extends ImageView {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
         new ImageLoader().execute(imageURL);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        Log.w("Savier goalview", "Updated");
+        this.invalidate();
     }
 
 

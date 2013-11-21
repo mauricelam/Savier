@@ -1,8 +1,12 @@
 package com.mauricelam.Savier;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.text.Html;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -17,12 +21,14 @@ import java.text.NumberFormat;
  * Time: 1:37 PM
  */
 public class AddMoneyView extends RelativeLayout {
-    // This view should compose the CoinView, MoneySliderView and the +/- buttons
-
-    private Context context;
 
     private int amount;
     private TextView amountLabel;
+
+    // FIXME
+    private boolean exponentialScale = true;
+
+    private int increment = 2; // Set the initial to dollar
 
     public AddMoneyView(Context context) {
         super(context);
@@ -40,7 +46,6 @@ public class AddMoneyView extends RelativeLayout {
     }
 
     private void init(Context context) {
-        this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.add_money_component, this, true);
 
@@ -61,6 +66,47 @@ public class AddMoneyView extends RelativeLayout {
         });
 
         amountLabel = (TextView) view.findViewById(R.id.money_label);
+        amountLabel.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent == null)
+                    return false;
+
+                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    // Start dragging
+                    ClipData dragData = ClipData.newPlainText("money", String.valueOf(amount));
+                    DragShadowBuilder shadow = new DragShadowBuilder(amountLabel);
+                    AddMoneyView.this.startDrag(dragData, shadow, null, 0);
+                    return true;
+                }
+
+                Layout layout = amountLabel.getLayout();
+
+                // Change the decimal digit we are changing with the slider
+                if (layout == null || motionEvent.getY() < 0 || motionEvent.getActionMasked() != MotionEvent.ACTION_UP)
+                    return false;
+
+                float eventX = motionEvent.getX();
+                int offset = layout.getOffsetForHorizontal(0, eventX);
+                if (layout.getPrimaryHorizontal(offset) < eventX) {
+                    // Fix the offset since offset is looking for the nearest space between characters instead of
+                    // actual characters
+                    offset += 1;
+                }
+                offset = Math.max(0, Math.min(offset, amountLabel.getText().length()));
+                increment = amountLabel.getText().length() - offset;
+                if (increment > 1) {
+                    // Offset for the decimal point
+                    increment -= 1;
+                }
+                if (increment > 3)
+                    // Cap the maximum at 3. (I don't want to deal with the commas (e.g. $1,250.00)
+                    increment = 3;
+                exponentialScale = false;
+                setTextWithIncrement();
+                return true;
+            }
+        });
 
         SeekBar slider = (SeekBar) view.findViewById(R.id.money_slider);
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -89,16 +135,20 @@ public class AddMoneyView extends RelativeLayout {
 
     private int getChangeAmount(int sliderValue) {
         int delta = sliderValue - 40;
-        int sign = Integer.signum(delta);
-        int deltaMagnitude = Math.abs(delta);
-        if (deltaMagnitude <= 10) {
-            return deltaMagnitude * sign;
-        } else if (deltaMagnitude <= 20) {
-            return (deltaMagnitude - 10) * 10 * sign;
-        } else if (deltaMagnitude <= 30) {
-            return (deltaMagnitude - 20) * 100 * sign;
+        if (!exponentialScale) {
+            return (int) (delta / 2 * Math.pow(10, increment));
         } else {
-            return (deltaMagnitude - 30) * 1000 * sign;
+            int sign = Integer.signum(delta);
+            int deltaMagnitude = Math.abs(delta);
+            if (deltaMagnitude <= 10) {
+                return deltaMagnitude * sign;
+            } else if (deltaMagnitude <= 20) {
+                return (deltaMagnitude - 10) * 10 * sign;
+            } else if (deltaMagnitude <= 30) {
+                return (deltaMagnitude - 20) * 100 * sign;
+            } else {
+                return (deltaMagnitude - 30) * 1000 * sign;
+            }
         }
     }
 
@@ -110,12 +160,28 @@ public class AddMoneyView extends RelativeLayout {
         if (amount < 0)
             amount = 0;
         this.amount = amount;
-        // FIXME use something like printf. The formatting is wrong
+        setTextWithIncrement();
+    }
+
+    private void setTextWithIncrement() {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        amountLabel.setText(formatter.format(amount / 100.0));
+        String text = formatter.format(amount / 100.0);
+
+        if (exponentialScale) {
+            amountLabel.setText(text);
+        } else {
+            int offset = (increment > 1) ? increment + 1 : increment;
+            offset = text.length() - offset - 1;
+            String prefix = (offset >= 0 && offset < text.length()) ? text.substring(0, offset) : "";
+            String postfix = (increment > 0) ? text.substring(offset + 1) : "";
+            text = prefix + "<font color=#33b5e5>" + text.charAt(offset) + "</font>" + postfix;
+
+            amountLabel.setText(Html.fromHtml(text));
+        }
     }
 
     public int getAmount() {
         return amount;
     }
+
 }

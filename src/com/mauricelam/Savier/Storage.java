@@ -1,5 +1,6 @@
 package com.mauricelam.Savier;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import com.google.gson.Gson;
@@ -14,10 +15,18 @@ import java.lang.reflect.Type;
  */
 public class Storage {
 
-    private final SharedPreferences prefs;
+    private SharedPreferences prefs;
     Gson gson;
 
+    public Storage(Context context, String namespace) {
+        init(context.getSharedPreferences("goals", Context.MODE_PRIVATE));
+    }
+
     public Storage(SharedPreferences prefs) {
+        init(prefs);
+    }
+
+    private void init(SharedPreferences prefs) {
         this.prefs = prefs;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Goal.class, new InterfaceAdapter<Goal>());

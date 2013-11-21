@@ -10,6 +10,11 @@ public class AmazonGoal extends Goal {
     private String imageUrl;
     private String amazonId;
 
+    protected AmazonGoal() {
+        // no-arg constructor for GSON
+        super();
+    }
+
     public AmazonGoal(String name, int target, String amazonId, String imageUrl, String url) {
         super(name, target, url);
         this.amazonId = amazonId;

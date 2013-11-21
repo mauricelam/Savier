@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -26,7 +27,7 @@ public class GoalGridAdapter extends BaseAdapter implements Observer {
     public GoalGridAdapter(Context context) {
         this.context = context;
         this.list = GoalList.instance(context);
-        this.list.addObserver(this);
+        this.list.addWeakObserver(this);
     }
 
     public GoalList getList() {
