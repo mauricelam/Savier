@@ -3,35 +3,43 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
             android:text="$0.00"
             android:id="@+id/money_label" android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
-            android:textSize="40sp"/>
+            android:textSize="30sp"
+            android:background="@drawable/coin" />
     <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:text="+"
             android:id="@+id/plus_button"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/money_label"
-            android:background="@android:color/holo_blue_light"
-            android:minWidth="20dp"
-            android:minHeight="0dp"
+            android:background="@color/action_bar_gray"
+            android:minWidth="30dp"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:padding="0dp"
             />
     <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:text="-"
             android:id="@+id/minus_button"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/money_label"
-            android:background="@android:color/holo_blue_light"
-            android:minWidth="20dp"
-            android:minHeight="0dp"
+            android:background="@color/action_bar_gray"
+            android:minWidth="30dp"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:padding="0dp"
             />
     <SeekBar
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:id="@+id/money_slider"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/money_label"
@@ -40,5 +48,9 @@
             android:layout_toLeftOf="@+id/plus_button"
             android:progress="40"
             android:max="80"
+            android:background="@color/action_bar_gray"
+            android:progressDrawable="@drawable/add_money_progress"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             />
 </merge>

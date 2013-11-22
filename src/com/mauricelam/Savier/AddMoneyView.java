@@ -2,9 +2,13 @@ package com.mauricelam.Savier;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.text.Html;
 import android.text.Layout;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +28,7 @@ public class AddMoneyView extends RelativeLayout {
 
     private int amount;
     private TextView amountLabel;
+    private boolean dragging = false;
 
     // FIXME
     private boolean exponentialScale = true;
@@ -67,44 +72,66 @@ public class AddMoneyView extends RelativeLayout {
 
         amountLabel = (TextView) view.findViewById(R.id.money_label);
         amountLabel.setOnTouchListener(new OnTouchListener() {
+
+            private float startY = 0;
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent == null)
                     return false;
 
-                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    // Start dragging
-                    ClipData dragData = ClipData.newPlainText("money", String.valueOf(amount));
-                    DragShadowBuilder shadow = new DragShadowBuilder(amountLabel);
-                    AddMoneyView.this.startDrag(dragData, shadow, null, 0);
-                    return true;
+                switch (motionEvent.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startY = motionEvent.getY();
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        if (!dragging && startY - motionEvent.getY() > 30) {
+                            // Start dragging
+                            ClipData dragData = ClipData.newPlainText("money", String.valueOf(amount));
+                            DragShadowBuilder shadow = new DragShadow(amountLabel);
+                            AddMoneyView.this.startDrag(dragData, shadow, null, 0);
+                            return true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Layout layout = amountLabel.getLayout();
+                        if (layout != null) {
+                            float eventX = motionEvent.getX();
+                            int offset = layout.getOffsetForHorizontal(0, eventX);
+                            if (layout.getPrimaryHorizontal(offset) < eventX) {
+                                // Fix the offset since offset is looking for the nearest space between characters
+                                // instead of actual characters
+                                offset += 1;
+                            }
+                            offset = Math.max(0, Math.min(offset, amountLabel.getText().length()));
+                            increment = amountLabel.getText().length() - offset;
+                            if (increment > 1)
+                                // Offset for the decimal point
+                                increment -= 1;
+                            // Cap the maximum at 3. (I don't want to deal with the commas (e.g. $1,250.00)
+                            if (increment > 3) increment = 3;
+                            exponentialScale = false;
+                            setTextWithIncrement();
+                            return true;
+                        }
+                        break;
                 }
+                return false;
+            }
+        });
 
-                Layout layout = amountLabel.getLayout();
-
-                // Change the decimal digit we are changing with the slider
-                if (layout == null || motionEvent.getY() < 0 || motionEvent.getActionMasked() != MotionEvent.ACTION_UP)
-                    return false;
-
-                float eventX = motionEvent.getX();
-                int offset = layout.getOffsetForHorizontal(0, eventX);
-                if (layout.getPrimaryHorizontal(offset) < eventX) {
-                    // Fix the offset since offset is looking for the nearest space between characters instead of
-                    // actual characters
-                    offset += 1;
+        amountLabel.setOnDragListener(new OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                switch (dragEvent.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        dragging = true;
+                        break;
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        dragging = false;
+                        break;
                 }
-                offset = Math.max(0, Math.min(offset, amountLabel.getText().length()));
-                increment = amountLabel.getText().length() - offset;
-                if (increment > 1) {
-                    // Offset for the decimal point
-                    increment -= 1;
-                }
-                if (increment > 3)
-                    // Cap the maximum at 3. (I don't want to deal with the commas (e.g. $1,250.00)
-                    increment = 3;
-                exponentialScale = false;
-                setTextWithIncrement();
-                return true;
+                return false;
             }
         });
 
@@ -157,8 +184,7 @@ public class AddMoneyView extends RelativeLayout {
     }
 
     public void setAmount(int amount) {
-        if (amount < 0)
-            amount = 0;
+        if (amount < 0) amount = 0;
         this.amount = amount;
         setTextWithIncrement();
     }
@@ -182,6 +208,20 @@ public class AddMoneyView extends RelativeLayout {
 
     public int getAmount() {
         return amount;
+    }
+
+    private static class DragShadow extends DragShadowBuilder {
+
+        public DragShadow(View view) {
+            super(view);
+        }
+
+        @Override
+        public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+            super.onProvideShadowMetrics(shadowSize, shadowTouchPoint);
+            shadowTouchPoint.y += 50;
+        }
+
     }
 
 }

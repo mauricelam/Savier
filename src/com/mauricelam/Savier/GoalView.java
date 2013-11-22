@@ -36,6 +36,9 @@ public class GoalView extends ImageView implements Observer {
     private Canvas imageCanvas;
     private Canvas croppedCanvas;
 
+    private Bitmap imageBitmap;
+    private Bitmap croppedBitmap;
+
     private String imageURL;
 
     private static final Xfermode SRC_IN =  new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
@@ -68,26 +71,6 @@ public class GoalView extends ImageView implements Observer {
 
         imageCanvas = new Canvas();
         croppedCanvas = new Canvas();
-
-        this.setOnDragListener(new OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                if (dragEvent.getAction() == DragEvent.ACTION_DRAG_STARTED) {
-                    Log.w("Savier drag", "start");
-                    if ("money".equals(dragEvent.getClipDescription().getLabel())) {
-                        return true;
-                    }
-                } else if (dragEvent.getAction() == DragEvent.ACTION_DROP) {
-                    Log.w("Savier drag", "drop");
-                    String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
-                    int amount = Integer.parseInt(stringAmount);
-                    Log.d("Savier save", amount + "");
-                    goal.setSaved(goal.getSaved() + amount);
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     public void setGoal(Goal goal) {
@@ -101,6 +84,44 @@ public class GoalView extends ImageView implements Observer {
     }
 
     @Override
+    public boolean onDragEvent(DragEvent dragEvent) {
+        if (dragEvent.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+            Log.w("Savier drag", "start");
+            if ("money".equals(dragEvent.getClipDescription().getLabel())) {
+                return true;
+            }
+        } else if (dragEvent.getAction() == DragEvent.ACTION_DROP) {
+            Log.w("Savier drag", "drop");
+            String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
+            int amount = Integer.parseInt(stringAmount);
+            Log.d("Savier save", amount + "");
+            goal.setSaved(goal.getSaved() + amount);
+            return true;
+        }
+        return super.onDragEvent(dragEvent);
+    }
+
+    private Bitmap getImageBitmap(int width, int height) {
+        if (imageBitmap == null || imageBitmap.getWidth() != width || imageBitmap.getHeight() != height) {
+            if (imageBitmap != null) {
+                imageBitmap.recycle();
+            }
+            imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        }
+        return imageBitmap;
+    }
+
+    private Bitmap getCroppedBitmap(int width, int height) {
+        if (croppedBitmap == null || croppedBitmap.getWidth() != width || croppedBitmap.getHeight() != height) {
+            if (croppedBitmap != null) {
+                croppedBitmap.recycle();
+            }
+            croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        }
+        return croppedBitmap;
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         final int width = canvas.getWidth();
         final int height = canvas.getHeight();
@@ -111,11 +132,11 @@ public class GoalView extends ImageView implements Observer {
         canvas.drawCircle(halfWidth, halfHeight, radius, whitePaint);
 
         if (this.goal != null) {
-            Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Bitmap imageBitmap = getImageBitmap(width, height);
             imageCanvas.setBitmap(imageBitmap);
             super.onDraw(imageCanvas);
 
-            Bitmap croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Bitmap croppedBitmap = getCroppedBitmap(width, height);
             croppedCanvas.setBitmap(croppedBitmap);
             maskPaint.setXfermode(null);
             croppedCanvas.drawCircle(halfWidth, halfHeight, radius, maskPaint);
@@ -123,9 +144,6 @@ public class GoalView extends ImageView implements Observer {
             croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
 
             canvas.drawBitmap(croppedBitmap, 0, 0, null);
-
-//            imageBitmap.recycle();
-//            croppedBitmap.recycle();
         }
 
         RectF circle = new RectF(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);
@@ -171,8 +189,7 @@ public class GoalView extends ImageView implements Observer {
         @Override
         protected Drawable doInBackground(String... strings) {
             try {
-                Drawable drawable = drawableFromUrl(strings[0]);
-                return drawable;
+                return drawableFromUrl(strings[0]);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

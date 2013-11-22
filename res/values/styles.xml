@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Transparent" parent="android:Theme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
+    <color name="background_gray">#FF939598</color>
+    <color name="action_bar_gray">#FF6d6e71</color>
+    <color name="dark_gray">#FF333333</color>
+
+    <style name="Theme.Savier" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/background_gray</item>
+        <item name="android:actionBarStyle">@style/savierActionBar</item>
     </style>
+
+    <style name="savierActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/action_bar</item>
+    </style>
+
 </resources>
