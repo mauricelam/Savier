@@ -3,6 +3,7 @@ package com.mauricelam.Savier;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,6 +35,18 @@ public class AddGoalActivity extends Activity {
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://www.amazon.com");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("Savier add goal", "stop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("Savier add goal", "destroy");
     }
 
     private void setAddGoalEnabled(boolean enabled) {

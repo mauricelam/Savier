@@ -4,13 +4,8 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 public class SaveActivity extends Activity {
 
@@ -24,7 +19,6 @@ public class SaveActivity extends Activity {
         adapter = new GoalGridAdapter(this);
         // Set up the grid
         GridView gridview = (GridView) findViewById(R.id.goalGrid);
-        gridview.setAdapter(adapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -32,6 +26,16 @@ public class SaveActivity extends Activity {
             }
         });
 
+        Button labeledAddBtn = (Button) findViewById(R.id.labeled_add_button);
+        labeledAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAddGoalActivity();
+            }
+        });
+
+        gridview.setEmptyView(labeledAddBtn);
+        gridview.setAdapter(adapter);
     }
 
     @Override
@@ -69,12 +73,16 @@ public class SaveActivity extends Activity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_add_goal:
-                Intent intent = new Intent(this, AddGoalActivity.class);
-                startActivity(intent);
+                startAddGoalActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startAddGoalActivity() {
+        Intent intent = new Intent(this, AddGoalActivity.class);
+        startActivity(intent);
     }
 
     private void openGoalDetail(Goal goal) {

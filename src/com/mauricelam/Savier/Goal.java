@@ -17,7 +17,7 @@ import java.net.URL;
  * Date: 15/11/13
  * Time: 12:42 PM
  */
-public abstract class Goal implements Serializable {
+public abstract class Goal extends WeakObservable implements Serializable {
 
     // All money values should be in terms of cents
     private int target;
@@ -25,7 +25,14 @@ public abstract class Goal implements Serializable {
     private String name;
     private String url;
 
+    protected Goal() {
+        // no-arg constructor for GSON
+        super();
+    }
+
     public Goal(String name, int target, String url) {
+        super();
+        Log.d("Savier goal", "construct");
         this.target = target;
         this.name = name;
         this.url = url;
@@ -35,6 +42,7 @@ public abstract class Goal implements Serializable {
 
     public void setSaved(int saved) {
         this.saved = saved;
+        this.notifyObservers();
     }
 
     public int getSaved() {

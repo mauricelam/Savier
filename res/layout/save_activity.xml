@@ -14,5 +14,18 @@
             android:stretchMode="columnWidth"
             android:columnWidth="90dp"
             android:padding="10dp"/>
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/labeled_add_button"
+            android:text="@string/add_new_goal"
+            android:drawableBottom="@drawable/ic_action_add"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+    <com.mauricelam.Savier.AddMoneyView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
 </RelativeLayout>
 

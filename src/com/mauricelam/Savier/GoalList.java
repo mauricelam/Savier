@@ -14,7 +14,7 @@ import java.util.Observable;
  * Date: 19/11/13
  * Time: 1:39 PM
  */
-public class GoalList extends Observable {
+public class GoalList extends WeakObservable {
 
     private static final Type GOAL_LIST_TYPE = new TypeToken<ArrayList<Goal>>() {}.getType();
     private static GoalList instance;
@@ -31,8 +31,7 @@ public class GoalList extends Observable {
     }
 
     private static GoalList newInstance(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("goals", Context.MODE_PRIVATE);
-        Storage storage = new Storage(prefs);
+        Storage storage = new Storage(context, "goals");
         GoalList goalList = new GoalList(context);
         try {
             goalList.list = (ArrayList<Goal>) storage.getObject("goals", GOAL_LIST_TYPE);
