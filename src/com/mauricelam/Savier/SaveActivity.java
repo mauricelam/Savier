@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-
+import com.mauricelam.Savier.GoalDetailActivity;
 public class SaveActivity extends Activity {
 
     GoalGridAdapter adapter;
@@ -22,7 +22,7 @@ public class SaveActivity extends Activity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                openGoalDetail(adapter.getItem(position));
+                openGoalDetail(adapter.getItem(position), v, position);
             }
         });
 
@@ -85,10 +85,19 @@ public class SaveActivity extends Activity {
         startActivity(intent);
     }
 
-    private void openGoalDetail(Goal goal) {
-        GoalDetailFragment detailFragment = GoalDetailFragment.newInstance(goal);
-        FragmentManager fragmentManager = getFragmentManager();
-        detailFragment.show(fragmentManager, "goal_detail_fragment");
+    private void openGoalDetail(Goal goal, View v, int position) {
+    	
+//     GoalDetailFragment detailFragment = GoalDetailFragment.newInstance(goal);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        detailFragment.show(fragmentManager, "goal_detail_fragment");
+
+        /*Bundle args = new Bundle();
+        args.putSerializable("goal", goal); */
+
+    	Intent intent = new Intent(this, GoalDetailActivity.class);
+       	intent.putExtra("goal", goal);
+       	
+        startActivity(intent);
     }
 
 }

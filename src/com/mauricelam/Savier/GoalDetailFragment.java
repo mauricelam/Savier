@@ -34,27 +34,30 @@ public class GoalDetailFragment extends DialogFragment {
 
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         nameTextView.setText(goal.getName());
+        
+        TextView savingsTextView = (TextView) view.findViewById(R.id.savings);
+        savingsTextView.setText("SAVED:"+"$"+goal.getSaved() +"of" +"$"+goal.getTarget());
 
         GoalView goalView = (GoalView) view.findViewById(R.id.goalview);
         goalView.setGoal(goal);
 
-        Button deleteBtn = (Button) view.findViewById(R.id.delete_button);
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoalList list = GoalList.instance(getActivity());
-                list.remove(goal);
-                GoalDetailFragment.this.dismiss();
-            }
-        });
-
-        Button closeBtn = (Button) view.findViewById(R.id.close_button);
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoalDetailFragment.this.dismiss();
-            }
-        });
+//        Button deleteBtn = (Button) view.findViewById(R.id.delete_button);
+//        deleteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                GoalList list = GoalList.instance(getActivity());
+//                list.remove(goal);
+//                GoalDetailFragment.this.dismiss();
+//            }
+//        });
+//
+//        Button closeBtn = (Button) view.findViewById(R.id.close_button);
+//        closeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                GoalDetailFragment.this.dismiss();
+//            }
+//        });
 
         return view;
     }
