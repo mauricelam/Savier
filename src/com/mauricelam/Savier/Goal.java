@@ -12,7 +12,7 @@ import java.io.Serializable;
 public abstract class Goal extends WeakObservable implements Serializable {
 
     // All money values should be in terms of cents
-    private int target;
+    private double target;
     private int saved = 0;
     private String name;
     private String url;
@@ -22,10 +22,10 @@ public abstract class Goal extends WeakObservable implements Serializable {
         super();
     }
 
-    public Goal(String name, int target, String url) {
+    public Goal(String name, double target2, String url) {
         super();
         Log.d("Savier goal", "construct");
-        this.target = target;
+        this.target = target2;
         this.name = name;
         this.url = url;
     }
@@ -41,7 +41,7 @@ public abstract class Goal extends WeakObservable implements Serializable {
         return saved;
     }
 
-    public int getTarget() {
+    public double getTarget() {
         return target;
     }
 
