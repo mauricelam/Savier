@@ -52,8 +52,7 @@ public class AmazonGoal extends Goal {
 		return this.imageUrl;
 	}
 
-	private static Document getResponse(String url)
-			throws ParserConfigurationException, IOException, SAXException {
+	private static Document getResponse(String url) throws ParserConfigurationException, IOException, SAXException {
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
 		Document doc = builder.parse(url);
@@ -98,34 +97,27 @@ public class AmazonGoal extends Goal {
 			response.getDocumentElement().normalize();
 			
 			/* Item Title */
-			itemTitle = extractFromDoc("Title", response);
+			itemTitle = (response.getElementsByTagName("Title").item(0)).getTextContent();
 			
 			/* Item Price */
-			itemPriceFormatted = extractFromDoc("FormattedPrice", response);
-			String itemPriceAmountString = extractFromDoc("Amount", response);
+			Element bestOffer = (Element)(response.getElementsByTagName("Price").item(0));
+			itemPriceFormatted = bestOffer.getElementsByTagName("FormattedPrice").item(0).getTextContent();
+			String itemPriceAmountString = bestOffer.getElementsByTagName("Amount").item(0).getTextContent();
 			int itemPriceAmountInt = Integer.parseInt(itemPriceAmountString);
 			itemPrice = itemPriceAmountInt / 100.;
 			
 			/* Item ImageURL */			
-			NodeList nodeList = response.getElementsByTagName("MediumImage");
-			Node node = nodeList.item(0);
-			Element element = (Element) node;
-			itemImageURL = element.getElementsByTagName("URL").item(0).getTextContent();
+			itemImageURL = ((Element)response.getElementsByTagName("MediumImage").item(0))
+					.getElementsByTagName("URL").item(0).getTextContent();
 			
 			/* Item URL */
-			itemURL = extractFromDoc("DetailPageURL", response);
+			itemURL = (response.getElementsByTagName("DetailPageURL").item(0)).getTextContent();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return new AmazonGoal(itemTitle, itemPrice, "B00CU0NSCU", itemImageURL, itemURL);
-	}
-
-	private static String extractFromDoc(String tag, Document doc) {
-		NodeList nodeList = doc.getElementsByTagName(tag);
-		Node node = nodeList.item(0);
-		return ((Element)node).getTextContent();
 	}
 	
 }

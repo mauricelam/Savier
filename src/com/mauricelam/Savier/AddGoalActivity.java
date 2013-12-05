@@ -25,6 +25,7 @@ public class AddGoalActivity extends Activity {
         setContentView(R.layout.add_goal);
 
         // FIXME: Should be set to enabled only if we detect Amazon item ID
+        
         setAddGoalEnabled(true);
     }
 
