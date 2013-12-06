@@ -80,6 +80,9 @@ public class SaveActivity extends Activity {
             case R.id.action_add_goal:
                 startAddGoalActivity();
                 return true;
+            case R.id.open_setup_action:
+                startSetupActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -87,6 +90,10 @@ public class SaveActivity extends Activity {
 
     private void startAddGoalActivity() {
         Intent intent = new Intent(this, AddGoalActivity.class);
+        startActivity(intent);
+    }
+    private void startSetupActivity() {
+        Intent intent = new Intent(this, VideoActivity.class);
         startActivity(intent);
     }
 

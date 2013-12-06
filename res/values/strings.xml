@@ -14,9 +14,30 @@
         Quisque a elit a tortor porttitor pretium. Pellentesque blandit sed dui a adipiscing.</string>
     <string name="add_new_goal">Add new goal</string>
     <string name="next">Next</string>
+    <string name="open_setup">Setup</string>
+    <string name="title_activity_personal_info">Setup</string>
     <string name="title_activity_goal_detail">GoalDetailActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+    <string name="per_info_header">Please Enter Your Personal Information</string>
+    <string name="setup_title">Setup</string>
+    <string name="start_setup">Start Setup</string>
+    <string name="billing_address_checkbox">Billing Address is same as Shipping Address</string>
+    <string name="default_first_name">First Name</string>
+    <string name="default_last_name">Last Name</string>
+    <string name="default_email_address">Email Address</string>
+    <string name="default_shipping_address">Shipping Address</string>
+    <string name="default_address_line2">Address Line 2</string>
+    <string name="default_city">City</string>
+    <string name="default_state">State</string>
+    <string name="default_zip">Zip Code</string>
+    <string name="title_activity_billing_addr">Setup</string>
+    <string name="title_activity_card">Setup</string>
+    <string name="enter_personal_info">Enter Personal Information</string>
+    <string name="enter_billing_info">Enter Billing Address</string>
+    <string name="default_billing_address">Billing Address</string>
+    <string name="enter_card_info">Enter Debit Card Information</string>
+
 </resources>
