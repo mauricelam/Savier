@@ -22,7 +22,12 @@ public class SaveActivity extends Activity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                openGoalDetail(adapter.getItem(position));
+                GoalView goalView = (GoalView) v;
+                if (goalView.isShowingDetail()) {
+                    openGoalDetail(adapter.getItem(position));
+                } else {
+                    goalView.showDetail();
+                }
             }
         });
 

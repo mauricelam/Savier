@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class WeakObservable extends Observable {
 
-    private Set<Observer> references;
+    private transient Set<Observer> references;
 
     public WeakObservable() {
         WeakHashMap<Observer, Boolean> map = new WeakHashMap<Observer, Boolean>();
