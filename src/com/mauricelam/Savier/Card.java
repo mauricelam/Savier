@@ -2,10 +2,12 @@ package com.mauricelam.Savier;
 
 
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Card implements Parcelable {
+public class Card implements Serializable {
 		int[] num;
 		int[] ExpMonth;
 		int[] ExpYear;
@@ -23,20 +25,4 @@ public class Card implements Parcelable {
 			cvv = new int[3];
 		}
 
-		@Override
-		public int describeContents() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
-			dest.writeIntArray(num);
-			dest.writeIntArray(ExpMonth);
-			dest.writeIntArray(ExpYear);
-			dest.writeString(fName);
-			dest.writeString(lName);
-			dest.writeIntArray(cvv);
-			
-		}
 }

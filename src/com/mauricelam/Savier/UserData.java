@@ -2,12 +2,15 @@ package com.mauricelam.Savier;
 
 
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class UserData implements Parcelable {
+public class UserData implements Serializable {
 	String fName;
 	String lName;
+	String email;
 	Address ShippingAddress;
 	Address BillingAddress;
 	Card CheckingCard;
@@ -16,24 +19,59 @@ public class UserData implements Parcelable {
 	{
 		fName = "First Name";
 		lName = "Last Name";
+		email = "abc@xyz.com";
 		ShippingAddress = new Address();
 		BillingAddress = new Address();
 		CheckingCard = new Card(fName, lName);
 	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public void setData(String a, String b, String c)
+	{
+		fName = a;
+		lName = b;
+		email = c;
 	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(fName);
-		dest.writeString(lName);
-		dest.write
+	public void setData(String a, String b, String c, Address d)
+	{
+		fName = a;
+		lName = b;
+		email = c;
+		ShippingAddress = d;
 		
 	}
+	public void setData(String a, String b, String c, Address d, Address e)
+	{
+		fName = a;
+		lName = b;
+		email = c;
+		ShippingAddress = d;
+		BillingAddress = e;
+		
+	}
+	
+	public void setBillingAddr(Address a)
+	{
+		BillingAddress = a;
+	}
+	
+	public void setCheckingCard(Card a)
+	{
+		CheckingCard = a;
+	}
+	public String getfName()
+	{
+		return fName;
+	}
+	public String getlName()
+	{
+		return lName;
+	}
+	public String getEmail()
+	{
+		return email;
+	}
+	
+	
 	
 	
 }

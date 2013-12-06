@@ -2,15 +2,17 @@ package com.mauricelam.Savier;
 
 
 
+import java.io.Serializable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Address implements Parcelable {
+public class Address implements Serializable {
 	String Line1;
 	String Line2;
 	String City;
 	String State;
-	int[] Zipcode;
+	String Zipcode;
 	
 	Address()
 	{
@@ -18,21 +20,16 @@ public class Address implements Parcelable {
 		Line2 = "Apt/Suite";
 		City = "City";
 		State = "State";
-		Zipcode = new int[5];
+		Zipcode = "00000";
+	}
+	Address(String a, String b, String c, String d, String e)
+	{
+		Line1 = a;
+		Line2 = b;
+		City = c;
+		State = d;
+		Zipcode = e;
 	}
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(Line1);
-		dest.writeString(Line2);
-		dest.writeString(City);
-		dest.writeString(State);
-		dest.writeIntArray(Zipcode);
-	}
+	
 }
