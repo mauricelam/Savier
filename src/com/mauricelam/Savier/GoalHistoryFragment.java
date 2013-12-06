@@ -1,6 +1,5 @@
 package com.mauricelam.Savier;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GoalHistoryFragment extends ListFragment{
+public class GoalHistoryFragment extends ListFragment {
 	private Goal goal;
 	public GoalHistoryFragment() {
 		// TODO Auto-generated constructor stub
