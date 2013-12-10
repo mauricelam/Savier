@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -22,6 +23,8 @@ public class AddGoalActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.add_goal);
 
         // FIXME: Should be set to enabled only if we detect Amazon item ID
@@ -32,12 +35,25 @@ public class AddGoalActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
         WebView webView = (WebView) findViewById(R.id.webview);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new AmazonWebViewClient());
         webView.loadUrl("https://www.amazon.com");
     }
 
+    private class AmazonWebViewClient extends WebViewClient {
+    	@Override
+    	public boolean shouldOverrideUrlLoading(WebView webview, String url) {
+    		webview.loadUrl(url);
+    		setProgressBarIndeterminateVisibility(true);
+    		return true;
+    	}
+    	
+    	@Override
+    	public void onPageFinished(WebView webview, String url) {
+    		super.onPageFinished(webview, url);
+    		setProgressBarIndeterminateVisibility(false);
+    	}
+    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -61,6 +77,18 @@ public class AddGoalActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_goal_menu, menu);
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         menu.findItem(R.id.action_select_goal).setEnabled(this.enableAddGoal);
 
         return super.onCreateOptionsMenu(menu);

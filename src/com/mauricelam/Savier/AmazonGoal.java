@@ -52,13 +52,6 @@ public class AmazonGoal extends Goal {
 		return this.imageUrl;
 	}
 
-	private static Document getResponse(String url) throws ParserConfigurationException, IOException, SAXException {
-		DocumentBuilder builder = DocumentBuilderFactory.newInstance()
-				.newDocumentBuilder();
-		Document doc = builder.parse(url);
-		return doc;
-	}
-
 	public static AmazonGoal fromId(String amazonId) {
 		// Query the amazon API here, and set the correct target
 		
