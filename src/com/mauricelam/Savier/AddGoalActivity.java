@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
  */
 public class AddGoalActivity extends Activity {
     private boolean enableAddGoal = false;
+    private WebView webView;
 
     // TODO: show a loading indicator while the web page is loading (instead of blank page)
 
@@ -28,16 +29,22 @@ public class AddGoalActivity extends Activity {
         setContentView(R.layout.add_goal);
 
         // FIXME: Should be set to enabled only if we detect Amazon item ID
-        
         setAddGoalEnabled(true);
+
+        String url = "https://www.amazon.com";
+        if (savedInstanceState != null) {
+            url = savedInstanceState.getString("url");
+        }
+        Log.e("Savier url", url);
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebViewClient(new AmazonWebViewClient());
+        webView.loadUrl(url);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.setWebViewClient(new AmazonWebViewClient());
-        webView.loadUrl("https://www.amazon.com");
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("url", webView.getUrl());
     }
 
     private class AmazonWebViewClient extends WebViewClient {
@@ -54,17 +61,6 @@ public class AddGoalActivity extends Activity {
     		setProgressBarIndeterminateVisibility(false);
     	}
     }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("Savier add goal", "stop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("Savier add goal", "destroy");
-    }
 
     private void setAddGoalEnabled(boolean enabled) {
         this.enableAddGoal = enabled;
@@ -77,20 +73,7 @@ public class AddGoalActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_goal_menu, menu);
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         menu.findItem(R.id.action_select_goal).setEnabled(this.enableAddGoal);
-
         return super.onCreateOptionsMenu(menu);
     }
 

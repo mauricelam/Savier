@@ -10,11 +10,13 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.DragEvent;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -92,41 +94,39 @@ public class GoalView extends ImageView implements Observer {
 
     @Override
     public boolean onDragEvent(DragEvent dragEvent) {
-        if (dragEvent.getAction() == DragEvent.ACTION_DRAG_STARTED) {
-            Log.w("Savier drag", "start");
-            if ("money".equals(dragEvent.getClipDescription().getLabel())) {
+        switch (dragEvent.getAction()) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                Log.w("Savier drag", "start");
+                if ("money".equals(dragEvent.getClipDescription().getLabel())) {
+                    return true;
+                }
+            case DragEvent.ACTION_DROP:
+                Log.w("Savier drag", "drop");
+                String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
+                int amount = Integer.parseInt(stringAmount);
+                Log.d("Savier save", amount + "");
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                String amountString = formatter.format(amount / 100.0);
+                goal.setSaved(goal.getSaved() + amount);
+                Toast toast = Toast.makeText(getContext(), "Saved " + amountString + " to " + goal.getName(), Toast.LENGTH_SHORT);
+                toast.show();
                 return true;
-            }
-        } else if (dragEvent.getAction() == DragEvent.ACTION_DROP) {
-            Log.w("Savier drag", "drop");
-            String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
-            int amount = Integer.parseInt(stringAmount);
-            Log.d("Savier save", amount + "");
-            goal.setSaved(goal.getSaved() + amount);
-            return true;
         }
         return super.onDragEvent(dragEvent);
     }
 
     private boolean prepareCroppedBitmap(int width, int height, float radius) {
-//        if (croppedBitmap == null) {
-//            if (croppedBitmap != null) {
-//                croppedBitmap.recycle();
-//            }
-            Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            imageCanvas.setBitmap(imageBitmap);
-            super.onDraw(imageCanvas);
+        Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        imageCanvas.setBitmap(imageBitmap);
+        super.onDraw(imageCanvas);
 
-            croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            croppedCanvas.setBitmap(croppedBitmap);
-            maskPaint.setXfermode(null);
-            croppedCanvas.drawCircle(width / 2, height / 2, radius, maskPaint);
-            maskPaint.setXfermode(SRC_IN);
-            croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
-            Log.e("Savier goalview", "draw");
-            return true;
-//        }
-//        return false;
+        croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        croppedCanvas.setBitmap(croppedBitmap);
+        maskPaint.setXfermode(null);
+        croppedCanvas.drawCircle(width / 2, height / 2, radius, maskPaint);
+        maskPaint.setXfermode(SRC_IN);
+        croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
+        return true;
     }
 
     @Override

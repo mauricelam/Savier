@@ -98,14 +98,6 @@ public class SaveActivity extends Activity {
     }
 
     private void openGoalDetail(Goal goal, View v, int position) {
-    	
-//     GoalDetailFragment detailFragment = GoalDetailFragment.newInstance(goal);
-//        FragmentManager fragmentManager = getFragmentManager();
-//        detailFragment.show(fragmentManager, "goal_detail_fragment");
-
-        /*Bundle args = new Bundle();
-        args.putSerializable("goal", goal); */
-
     	Intent intent = new Intent(this, GoalDetailActivity.class);
        	intent.putExtra("goal", goal);
        	
