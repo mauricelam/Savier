@@ -55,14 +55,27 @@ public class GoalEditFragment extends Fragment {
             public void onClick(View view) {
             	EditText text = (EditText)nameTextView.findViewById(R.id.editname);
             	String name = text.getText().toString();
-            	Toast.makeText(getActivity(), name, Toast.LENGTH_LONG).show();
-            	getGoal().setName(name);
+            	Toast.makeText(getActivity(), "Goal Name Changed", Toast.LENGTH_LONG).show();
+            	goal.setName(name);
 //            	
             }
         });
 
-       
-       System.out.println("Goal screen created");
+        Button deleteBtn = (Button) view.findViewById(R.id.delete_button);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             GoalList list = GoalList.instance(getActivity());
+             System.out.println(list.size());
+             list.remove(goal);
+             list.commitChanges();
+             System.out.println(list.size());
+             System.out.println("Goal deleted");
+             GoalEditFragment.this.getActivity().finish();
+         }
+     });
+        
+      // System.out.println("Goal screen created");
         return view;
     }
     public static GoalEditFragment newInstance(Goal goal) {
