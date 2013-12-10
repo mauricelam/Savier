@@ -1,11 +1,20 @@
 package com.mauricelam.Savier;
 
+import java.util.HashMap;
+import java.util.Map;
 import com.amazon.advertising.api.sample.SignedRequestsHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import android.util.Log;
+
+import com.amazon.advertising.api.sample.SignedRequestsHelper;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +71,7 @@ public class AmazonGoal extends Goal {
 		params.put("AssociateTag", ASSOCIATE_TAG);
 
 		String url = helper.sign(params);
+		Log.d("queryURL", url);
 		try {
 			/* Get XML Object */
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

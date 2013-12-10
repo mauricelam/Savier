@@ -27,6 +27,7 @@ public class CardActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_card);
 		ProgressBar pb1 = (ProgressBar)findViewById(R.id.progressBar3);
+		//
 		pb1.setMax(100);
 		pb1.setProgress(67);
 		Intent intent = getIntent();
