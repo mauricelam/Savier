@@ -76,7 +76,7 @@ public class AmazonGoal extends Goal {
 	}
 
 	public String getDescription() {
-		return super.getDscription();
+		return super.getDescription();
 	}
 	
 }

@@ -44,7 +44,8 @@ public class GoalEditFragment extends Fragment {
        amazonlinkTextView.setClickable(true);
        amazonlinkTextView.setMovementMethod (LinkMovementMethod.getInstance());
 //       amazonlinkTextView.setText(goal.getUrl());
-       
+       final TextView descTextView = (TextView) view.findViewById(R.id.editdescription);
+       descTextView.setText(goal.getDescription());
         GoalView goalView = (GoalView) view.findViewById(R.id.goalview);
         
         goalView.setGoal(goal);
@@ -54,9 +55,15 @@ public class GoalEditFragment extends Fragment {
             @Override
             public void onClick(View view) {
             	EditText text = (EditText)nameTextView.findViewById(R.id.editname);
+            	EditText desc = (EditText)descTextView.findViewById(R.id.editdescription);
+            	System.out.println(desc+"descipt");
             	String name = text.getText().toString();
-            	Toast.makeText(getActivity(), "Goal Name Changed", Toast.LENGTH_LONG).show();
+            	String description = desc.getText().toString();
             	goal.setName(name);
+            	goal.setDescription(description);
+            	Toast.makeText(getActivity(), "Goal Details Saved", Toast.LENGTH_LONG).show();
+            	
+            	
 //            	
             }
         });
@@ -66,11 +73,11 @@ public class GoalEditFragment extends Fragment {
          @Override
          public void onClick(View view) {
              GoalList list = GoalList.instance(getActivity());
-             System.out.println(list.size());
+            // System.out.println(list.size());
              list.remove(goal);
              list.commitChanges();
-             System.out.println(list.size());
-             System.out.println("Goal deleted");
+             /*System.out.println(list.size());
+             System.out.println("Goal deleted");*/
              GoalEditFragment.this.getActivity().finish();
          }
      });

@@ -47,6 +47,8 @@ public class GoalDetailsFragment extends Fragment implements Observer{
        amazonlinkTextView.setClickable(true);
        amazonlinkTextView.setMovementMethod (LinkMovementMethod.getInstance());
 //       amazonlinkTextView.setText(goal.getUrl());
+       TextView descTextView = (TextView) view.findViewById(R.id.description);
+       descTextView.setText(goal.getDescription());
        
         GoalView goalView = (GoalView) view.findViewById(R.id.goalview);
         
@@ -58,7 +60,7 @@ public class GoalDetailsFragment extends Fragment implements Observer{
             public void onClick(View view) {
 //                GoalList list = GoalList.instance(getActivity());
 //                list.remove(goal);
-            	Toast.makeText(getActivity(), "Coming Up !!!", Toast.LENGTH_LONG).show();
+            	Toast.makeText(getActivity(), "Coming Up in next version  !!!", Toast.LENGTH_LONG).show();
                
             }
         });
@@ -67,7 +69,7 @@ public class GoalDetailsFragment extends Fragment implements Observer{
         autopayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            	Toast.makeText(getActivity(), "Coming Up !!!", Toast.LENGTH_LONG).show();       
+            	Toast.makeText(getActivity(), "Coming Up in next version !!!", Toast.LENGTH_LONG).show();       
             }
         });
        //System.out.println("Goal screen created");
@@ -89,7 +91,7 @@ public class GoalDetailsFragment extends Fragment implements Observer{
 		//System.out.println("Goal Updated in fragment");
     	
 		((TextView)this.getView().findViewById(R.id.name)).setText(goal.getName());
-		
+		((TextView)this.getView().findViewById(R.id.description)).setText(goal.getDescription());
 		//findViewById(R.id.name).setText(goal.getName());
 		
 	}
