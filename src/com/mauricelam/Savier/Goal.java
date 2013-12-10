@@ -3,6 +3,7 @@ package com.mauricelam.Savier;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * User: mauricelam
@@ -17,9 +18,14 @@ public abstract class Goal extends WeakObservable implements Serializable {
     private String name;
     private String url;
 
+    private String id;
+
     protected Goal() {
         // no-arg constructor for GSON
         super();
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
     }
 
     public Goal(String name, double target2, String url) {
@@ -28,6 +34,7 @@ public abstract class Goal extends WeakObservable implements Serializable {
         this.target = target2;
         this.name = name;
         this.url = url;
+        this.id = UUID.randomUUID().toString();
     }
 
     public abstract String getImageURL();
@@ -65,5 +72,18 @@ public abstract class Goal extends WeakObservable implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Goal))
+            return false;
+        Goal other = (Goal) o;
+        return this.id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }
