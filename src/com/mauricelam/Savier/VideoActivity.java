@@ -19,7 +19,7 @@ public class VideoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.video_activity);
-		Uri video = Uri.parse("android.resource://com.mauricelam.Savier/raw/intro_video");
+		Uri video = Uri.parse("android.resource://com.mauricelam.Savier/raw/savier_intro");
 		final VideoView myVideoView = (VideoView)findViewById(R.id.introvideoview);
 	       myVideoView.canPause();
 	       myVideoView.setVideoURI(video);
