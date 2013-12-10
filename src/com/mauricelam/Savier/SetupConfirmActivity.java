@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetupConfirmActivity extends Activity {
 
@@ -80,6 +81,7 @@ public class SetupConfirmActivity extends Activity {
 	{
 		Intent intent = new Intent(this, SaveActivity.class);
 		startActivity(intent);
+		Toast.makeText(this, "User Data Saved", Toast.LENGTH_SHORT).show();
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
