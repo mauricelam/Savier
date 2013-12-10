@@ -1,13 +1,12 @@
 package com.mauricelam.Savier;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ public class GoalDetailActivity extends FragmentActivity implements ActionBar.Ta
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		System.out.println("Starting on Create GoalDetailActivity");
+
         this.goal = (Goal) getIntent().getExtras().getSerializable("goal");
         System.out.println("Goal Received :"+this.goal.getName());
 		setContentView(R.layout.activity_goal_detail);
@@ -92,9 +91,6 @@ public class GoalDetailActivity extends FragmentActivity implements ActionBar.Ta
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	
-	
-	
 	public class GoalPagerAdapter extends FragmentPagerAdapter {
 
 		public GoalPagerAdapter(FragmentManager fm) {
@@ -140,6 +136,8 @@ public class GoalDetailActivity extends FragmentActivity implements ActionBar.Ta
 		}
 
 	}
+
+	
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
