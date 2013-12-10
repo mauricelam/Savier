@@ -3,6 +3,7 @@ package com.mauricelam.Savier;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.UUID;
 
 /**
@@ -13,7 +14,7 @@ import java.util.UUID;
 public abstract class Goal extends WeakObservable implements Serializable {
 
     // All money values should be in terms of cents
-    private double target;
+    private int target;
     private int saved = 0;
     private String name;
     private String url;
@@ -29,14 +30,18 @@ public abstract class Goal extends WeakObservable implements Serializable {
         }
     }
 
-    public Goal(String name, double target2, String url, String description) {
+    public Goal(String name, int target, String url, String description) {
         super();
         Log.d("Savier goal", "construct");
-        this.target = target2;
+        this.target = target;
         this.name = name;
         this.url = url;
         this.id = UUID.randomUUID().toString();
         this.description = description;
+    }
+
+    public Goal(String name, double target, String url, String description) {
+        this(name, (int) (target * 100), url, description);
     }
 
     public abstract String getImageURL();
@@ -50,8 +55,16 @@ public abstract class Goal extends WeakObservable implements Serializable {
         return saved;
     }
 
-    public double getTarget() {
+    public String getSavedString() {
+        return NumberFormat.getCurrencyInstance().format(this.getSaved() / 100.0);
+    }
+
+    public int getTarget() {
         return target;
+    }
+
+    public String getTargetString() {
+        return NumberFormat.getCurrencyInstance().format(this.getTarget() / 100.0);
     }
 
     public double getPercentage() {

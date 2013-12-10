@@ -40,13 +40,16 @@ public class GoalDetailsFragment extends Fragment implements Observer{
        
 
        TextView savingsTextView = (TextView) view.findViewById(R.id.savings);
-       savingsTextView.setText("SAVED:"+" $"+goal.getSaved() +" of " +"$"+goal.getTarget());
+       savingsTextView.setText("Saved: " + goal.getSavedString() + " / " + goal.getTargetString());
        
        TextView amazonlinkTextView = (TextView) view.findViewById(R.id.amazonlink);
-       amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getUrl() + "\">" + "View on Amazon" + "</a>"));
+       if (goal.getUrl() != null) {
+           amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getUrl() + "\">" + "View on Amazon" + "</a>"));
+       } else {
+           amazonlinkTextView.setText("");
+       }
        amazonlinkTextView.setClickable(true);
        amazonlinkTextView.setMovementMethod (LinkMovementMethod.getInstance());
-//       amazonlinkTextView.setText(goal.getUrl());
        TextView descTextView = (TextView) view.findViewById(R.id.description);
        descTextView.setText(goal.getDescription());
        
@@ -58,10 +61,7 @@ public class GoalDetailsFragment extends Fragment implements Observer{
         undoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                GoalList list = GoalList.instance(getActivity());
-//                list.remove(goal);
-            	Toast.makeText(getActivity(), "Coming Up in next version  !!!", Toast.LENGTH_LONG).show();
-               
+            	Toast.makeText(getActivity(), "Coming Up in next version", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -69,10 +69,9 @@ public class GoalDetailsFragment extends Fragment implements Observer{
         autopayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            	Toast.makeText(getActivity(), "Coming Up in next version !!!", Toast.LENGTH_LONG).show();       
+            	Toast.makeText(getActivity(), "Coming Up in next version", Toast.LENGTH_SHORT).show();
             }
         });
-       //System.out.println("Goal screen created");
         return view;
     }
 
@@ -87,12 +86,10 @@ public class GoalDetailsFragment extends Fragment implements Observer{
     
     @Override
 	public void update(Observable observable, Object data) {
-		
-		//System.out.println("Goal Updated in fragment");
-    	
-		((TextView)this.getView().findViewById(R.id.name)).setText(goal.getName());
-		((TextView)this.getView().findViewById(R.id.description)).setText(goal.getDescription());
-		//findViewById(R.id.name).setText(goal.getName());
-		
+        View root = this.getView();
+        TextView nameView = (TextView) root.findViewById(R.id.name);
+        nameView.setText(goal.getName());
+        TextView descriptionView = (TextView) root.findViewById(R.id.description);
+		descriptionView.setText(goal.getDescription());
 	}
 }

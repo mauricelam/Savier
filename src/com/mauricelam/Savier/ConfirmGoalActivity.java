@@ -47,8 +47,8 @@ public class ConfirmGoalActivity extends Activity {
 		this.itemDescription = productInfo.get("Description");
 		
 		// TODO: Option for user to enter their desired goal name
-		this.amazonGoal = customGoalName == null ? new AmazonGoal(productInfo) :
-			new AmazonGoal(productInfo, customGoalName);
+		this.amazonGoal = customGoalName == null ? AmazonGoal.fromMap(productInfo) :
+			AmazonGoal.fromMap(productInfo, customGoalName);
 		
 		goalName = (TextView)findViewById(R.id.name);
 		goalPrice = (TextView)findViewById(R.id.savings);

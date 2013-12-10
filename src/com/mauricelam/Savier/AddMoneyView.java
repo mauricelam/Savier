@@ -168,9 +168,7 @@ public class AddMoneyView extends RelativeLayout {
     }
 
     private void setTextWithIncrement() {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        String text = formatter.format(amount / 100.0);
-
+        String text = NumberFormat.getCurrencyInstance().format(amount / 100.0);
         String[] strs = text.split("\\.");
         if (centIncrement) {
             text = strs[0] + ".<font color=#33b5e5>" + strs[1] + "</font>";

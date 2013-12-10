@@ -1,5 +1,9 @@
 package com.mauricelam.Savier;
 
+import android.util.Log;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -8,36 +12,42 @@ import java.util.Map;
 public class AmazonGoal extends Goal {
 
 	private String productID;
-	private String title;
 	private String imageURL;
-	private String priceFormatted;
-	
+
 	protected AmazonGoal() {
 		// no-arg constructor for GSON
 		super();
 	}
 
-	public AmazonGoal(Map<String, String> productInfo) {
-		super(productInfo.get("Title"), Double.parseDouble(productInfo.get("Price").substring(1)), 
-				productInfo.get("URL"), productInfo.get("Description"));
-		this.setProductID(new String(productInfo.get("ProductID")));
-		this.setTitle(new String(productInfo.get("Title")));
-		this.setImageURL(new String(productInfo.get("ImageURL")));
-		this.priceFormatted = new String(productInfo.get("Price"));
+    public AmazonGoal(String title, int target, String url, String description, String productID, String imageURL) {
+        super(title, target, url, description);
+        this.productID = productID;
+        this.imageURL = imageURL;
+    }
+
+	public static AmazonGoal fromMap(Map<String, String> info) {
+        double target = 0;
+        String price = null;
+        try {
+            target = NumberFormat.getCurrencyInstance().parse(info.get("Price")).doubleValue();
+        } catch (ParseException e) {
+            Log.w("Savier Amazon parsing", "Number format exception: " + price);
+        }
+		AmazonGoal goal = new AmazonGoal(
+                info.containsKey("Title") ? info.get("Title") : "Unknown title",
+                (int) (target * 100),
+				info.containsKey("URL") ? info.get("URL") : "https://www.amazon.com",
+                info.containsKey("Description") ? info.get("Description") : "",
+                info.containsKey("ProductID") ? info.get("ProductID") : "Unknown ID",
+                info.get("ImageURL")
+        );
+        return goal;
 	}
-	
-	/**
-	 * Constructor with the user customized name
-	 * @param productInfo
-	 */
-	public AmazonGoal(Map<String, String> productInfo, String goalName) {
-		super(goalName, Double.parseDouble(productInfo.get("Price")), 
-				productInfo.get("URL"), productInfo.get("Description"));
-		this.setProductID(new String(productInfo.get("ProductID")));
-		this.setTitle(new String(productInfo.get("Title")));
-		this.setImageURL(new String(productInfo.get("ImageURL")));
-		this.priceFormatted = new String(productInfo.get("Price"));
-	}
+
+    public static AmazonGoal fromMap(Map<String, String> info, String customName) {
+        info.put("Title", customName);
+        return AmazonGoal.fromMap(info);
+    }
 
 	public String getProductID() {
 		return productID;
@@ -46,18 +56,6 @@ public class AmazonGoal extends Goal {
 	public void setProductID(String productID) {
 		this.productID = productID;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getURL() {
-		return super.getUrl();
-	}
 	
 	public String getImageURL() {
 		return imageURL;
@@ -65,14 +63,6 @@ public class AmazonGoal extends Goal {
 
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
-	}
-
-	public double getPrice() {
-		return super.getTarget();
-	}
-
-	public String getPriceFormatted() {
-		return imageURL;
 	}
 
 	public String getDescription() {

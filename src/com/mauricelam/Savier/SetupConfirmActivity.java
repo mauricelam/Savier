@@ -69,10 +69,7 @@ public class SetupConfirmActivity extends Activity {
 		submit.setOnClickListener(new OnClickListener() {
 
 	        public void onClick(View v) {
-	        		
-	        		
 	        		openSaveActivity();
-	        	
 	        }
 	        });
 	}
@@ -80,6 +77,7 @@ public class SetupConfirmActivity extends Activity {
 	private void openSaveActivity()
 	{
 		Intent intent = new Intent(this, SaveActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		Toast.makeText(this, "User Data Saved", Toast.LENGTH_SHORT).show();
 	}

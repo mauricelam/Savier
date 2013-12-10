@@ -60,7 +60,7 @@ public class SaveActivity extends Activity {
         if (intent.hasExtra("newAmazonGoal")) {
             Goal goal = (AmazonGoal) intent.getSerializableExtra("newAmazonGoal");
             
-            adapter.getList().add(goal); // FIXME CRASHING HERE
+            adapter.getList().add(goal);
             intent.removeExtra("newAmazonGoal");
             int pos = adapter.getList().size() - 1;
             gridview.smoothScrollToPosition(pos);
