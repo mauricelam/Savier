@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name="com.mauricelam.Savier.AddGoalActivity"
-            android:parentActivityName="com.mauricelam.Savier.SaveActivity" />
+            android:parentActivityName="com.mauricelam.Savier.SaveActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.mauricelam.Savier.ConfirmGoalActivity"
             android:parentActivityName="com.mauricelam.Savier.AddGoalActivity" />
