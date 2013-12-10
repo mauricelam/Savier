@@ -10,11 +10,16 @@
 
     <Button
         android:id="@+id/videoskipbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+       
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/start_setup" />
+        android:text="@string/start_setup" 
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center" />
 
     <VideoView
         android:id="@+id/introvideoview"
@@ -22,10 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/videoskipbutton"
         android:layout_centerHorizontal="true" />
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <Button android:layout_width="75dp"
+            android:layout_height="50dp"
             android:id="@+id/buttonStart"
             android:src="@drawable/ic_media_embed_play"
-            android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+            />
 
 </RelativeLayout>

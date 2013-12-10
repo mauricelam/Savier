@@ -30,6 +30,8 @@ public class PersonalInfoActivity extends Activity {
 		pb1.setMax(100);
 		pb1.setProgress(5);
 		Intent intent = getIntent();
+		final EditText fNameField = (EditText)findViewById(R.id.edit_first_name);
+		fNameField.requestFocus();
 		byte[] passedData = intent.getByteArrayExtra("USER_DATA");
 		final UserData user = deserializeData(passedData);
 		final Button submit = (Button) findViewById(R.id.submit_per_info_button);
@@ -37,7 +39,7 @@ public class PersonalInfoActivity extends Activity {
 		submit.setOnClickListener(new OnClickListener() {
 			
             public void onClick(View v) {
-            	fetchData(user);
+            	
             	final EditText fName = (EditText)findViewById(R.id.edit_first_name);
         		final EditText lName = (EditText)findViewById(R.id.edit_last_name);
         		final EditText email = (EditText)findViewById(R.id.edit_email_address);
@@ -140,14 +142,13 @@ public class PersonalInfoActivity extends Activity {
 	{
 		Intent intent = new Intent(this, BillingAddrActivity.class);
 		byte[] serialUserData = serializeData(user);
+		Bundle b = new Bundle();
 		intent.putExtra("USER_DATA", serialUserData);
+		b.putSerializable("US", user);
+		intent.putExtras(b);
 		startActivity(intent);
 	}
-	private void fetchData(UserData user)
-	{
-		
-		
-	}
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

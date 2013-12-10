@@ -47,6 +47,10 @@
             android:name="com.mauricelam.Savier.CardActivity"
             android:label="@string/title_activity_card" >
         </activity>
+        <activity
+            android:name="com.mauricelam.Savier.SetupConfirmActivity"
+            android:label="@string/title_activity_setup_confirm">
+        </activity>
     </application>
 
 </manifest>
