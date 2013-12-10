@@ -55,6 +55,8 @@ public abstract class Goal extends WeakObservable implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public String getUrl() {

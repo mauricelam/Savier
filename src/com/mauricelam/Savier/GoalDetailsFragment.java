@@ -1,5 +1,8 @@
 package com.mauricelam.Savier;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -9,9 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class GoalDetailsFragment extends Fragment {
+public class GoalDetailsFragment extends Fragment implements Observer{
 
     private Goal goal;
 
@@ -22,6 +26,7 @@ public class GoalDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);       
         this.goal = (Goal) getArguments().getSerializable("goal");
+        goal.addObserver(this);
     }
 
     @Override
@@ -53,7 +58,8 @@ public class GoalDetailsFragment extends Fragment {
             public void onClick(View view) {
 //                GoalList list = GoalList.instance(getActivity());
 //                list.remove(goal);
-                //TODO close the dialog box
+            	Toast.makeText(getActivity(), "Coming Up !!!", Toast.LENGTH_LONG).show();
+               
             }
         });
 
@@ -61,10 +67,10 @@ public class GoalDetailsFragment extends Fragment {
         autopayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO close the dialog box                
+            	Toast.makeText(getActivity(), "Coming Up !!!", Toast.LENGTH_LONG).show();       
             }
         });
-       System.out.println("Goal screen created");
+       //System.out.println("Goal screen created");
         return view;
     }
 
@@ -76,4 +82,15 @@ public class GoalDetailsFragment extends Fragment {
 
         return fragment;
     }
+    
+    @Override
+	public void update(Observable observable, Object data) {
+		
+		//System.out.println("Goal Updated in fragment");
+    	
+		((TextView)this.getView().findViewById(R.id.name)).setText(goal.getName());
+		
+		//findViewById(R.id.name).setText(goal.getName());
+		
+	}
 }
