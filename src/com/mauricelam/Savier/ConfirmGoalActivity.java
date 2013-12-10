@@ -1,8 +1,11 @@
 package com.mauricelam.Savier;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,9 +16,30 @@ import android.view.MenuItem;
  * Time: 3:11 PM
  */
 public class ConfirmGoalActivity extends Activity {
-    public void onCreate(Bundle savedInstanceState) {
+    
+	private String itemTitle;
+	private String itemPriceFormatted;
+	private String itemImageURL;
+	private String itemURL;
+	private String itemDescription;
+	
+	
+	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_add_goal);
+        Bundle bundle = getIntent().getExtras();
+		String productID = new String(bundle.getString("ProductID"));
+		AmazonProductLookup amazonLookup = new AmazonProductLookup(productID);
+		Map<String, String> productInfo = amazonLookup.lookup();
+		this.itemTitle = productInfo.get("Title");
+		this.itemPriceFormatted = productInfo.get("Price");
+		this.itemImageURL = productInfo.get("ImageURL");
+		this.itemURL = productInfo.get("URL");
+		this.itemDescription = productInfo.get("Description");
+		
+		Log.d("New Goal Title", itemTitle);
+		Log.d("New Goal Description", itemDescription);
+
     }
 
     @Override

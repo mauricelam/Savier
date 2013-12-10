@@ -1,25 +1,15 @@
 package com.mauricelam.Savier;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+
+import android.util.Log;
 
 import com.amazon.advertising.api.sample.SignedRequestsHelper;
 
@@ -76,6 +66,7 @@ public class AmazonGoal extends Goal {
 		params.put("AssociateTag", ASSOCIATE_TAG);
 
 		String url = helper.sign(params);
+		Log.d("queryURL", url);
 		try {
 			/* Get XML Object */
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
