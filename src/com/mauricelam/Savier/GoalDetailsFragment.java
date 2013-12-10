@@ -40,7 +40,7 @@ public class GoalDetailsFragment extends Fragment implements Observer{
        
 
        TextView savingsTextView = (TextView) view.findViewById(R.id.savings);
-       savingsTextView.setText("SAVED:"+" $"+goal.getSaved() +" of " +"$"+goal.getTarget());
+       savingsTextView.setText("SAVED:"+" $"+goal.getSaved()/100.0 +" of " +"$"+goal.getTarget()/100.);
        
        TextView amazonlinkTextView = (TextView) view.findViewById(R.id.amazonlink);
        amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getUrl() + "\">" + "View on Amazon" + "</a>"));
