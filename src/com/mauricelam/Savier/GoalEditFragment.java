@@ -37,7 +37,7 @@ public class GoalEditFragment extends Fragment {
        
 
        TextView savingsTextView = (TextView) view.findViewById(R.id.editsavings);
-       savingsTextView.setText("SAVED:"+" $"+goal.getSaved()/100.0 +" of " +"$"+goal.getTarget()/100.0);
+       savingsTextView.setText("SAVED:"+" $"+goal.getSaved() +" of " +"$"+goal.getTarget());
        
        TextView amazonlinkTextView = (TextView) view.findViewById(R.id.editamazonlink);
        amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getUrl() + "\">" + "View on Amazon" + "</a>"));
