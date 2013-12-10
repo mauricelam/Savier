@@ -10,6 +10,7 @@ import com.mauricelam.Savier.GoalDetailActivity;
 public class SaveActivity extends Activity {
 
     GoalGridAdapter adapter;
+    private GridView gridview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,7 +19,7 @@ public class SaveActivity extends Activity {
 
         adapter = new GoalGridAdapter(this);
         // Set up the grid
-        GridView gridview = (GridView) findViewById(R.id.goalGrid);
+        gridview = (GridView) findViewById(R.id.goalGrid);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -62,6 +63,9 @@ public class SaveActivity extends Activity {
             goal.setSaved((int) (Math.random() * 10000));
             adapter.getList().add(goal);
             intent.removeExtra("add_goal");
+
+            int pos = adapter.getList().size() - 1;
+            gridview.smoothScrollToPosition(pos);
         }
     }
 

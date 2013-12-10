@@ -150,6 +150,27 @@ public class GoalView extends ImageView implements Observer {
             canvas.drawBitmap(croppedBitmap, 0, 0, null);
         }
 
+        if (showingDetail) {
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.argb(200, 0, 0, 0));
+            canvas.drawArc(circle, 270, 360, false, paint);
+
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(30);
+            paint.setTextAlign(Paint.Align.CENTER);
+            int xPos = (width / 2);
+            int yPos = (int) ((height / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            String amountString = formatter.format(goal.getSaved() / 100.0);
+            canvas.drawText(amountString, xPos, yPos, paint);
+
+            yPos = (int) ((height / 2) - paint.ascent() + 10);
+            paint.setTextSize(20);
+            String targetString = formatter.format(goal.getTarget() / 100.0);
+            canvas.drawText("/ " + targetString, xPos, yPos, paint);
+        }
+
         circle.set(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);
 
         progressPaint.setColor(Color.LTGRAY);
