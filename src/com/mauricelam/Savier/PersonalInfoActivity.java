@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,8 +44,8 @@ public class PersonalInfoActivity extends Activity {
             	final EditText fName = (EditText)findViewById(R.id.edit_first_name);
         		final EditText lName = (EditText)findViewById(R.id.edit_last_name);
         		final EditText email = (EditText)findViewById(R.id.edit_email_address);
-        		final EditText addr1 = (EditText)findViewById(R.id.edit_billing_address1);
-        		final EditText addr2 = (EditText)findViewById(R.id.edit_billing_address2);
+        		final EditText addr1 = (EditText)findViewById(R.id.edit_shipping_address1);
+        		final EditText addr2 = (EditText)findViewById(R.id.edit_shipping_address2);
         		final EditText city = (EditText)findViewById(R.id.edit_city);
         		final EditText state = (EditText)findViewById(R.id.edit_state);
         		final EditText zip = (EditText)findViewById(R.id.edit_zip);
@@ -52,11 +53,14 @@ public class PersonalInfoActivity extends Activity {
         		System.out.println(fName);
         		Address shipAddr = null;
         		try{
+        			Log.e(ACTIVITY_SERVICE, addr1.toString());
+        			Log.e(ACTIVITY_SERVICE, addr1.getText().toString());
         		 shipAddr = new Address(addr1.getText().toString(),addr2.getText().toString(), city.getText().toString(), state.getText().toString(), zip.getText().toString() );
         		}
         		catch(Exception e)
         		{
         			shipAddr = new Address();
+        			e.printStackTrace();
         		}
         		final CheckBox billingAddr = (CheckBox) findViewById(R.id.billing_checkbox);
         		if(billingAddr.isChecked())

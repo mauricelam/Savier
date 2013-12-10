@@ -41,8 +41,8 @@ public class BillingAddrActivity extends Activity {
 
             public void onClick(View v) {
             		fetchData(user);
-            		final EditText addr1 = (EditText)findViewById(R.id.edit_shipping_address1);
-            		final EditText addr2 = (EditText)findViewById(R.id.edit_shipping_address2);
+            		final EditText addr1 = (EditText)findViewById(R.id.edit_billing_address1);
+            		final EditText addr2 = (EditText)findViewById(R.id.edit_billing_address2);
             		final EditText city = (EditText)findViewById(R.id.edit_city1);
             		final EditText state = (EditText)findViewById(R.id.edit_state1);
             		final EditText zip = (EditText)findViewById(R.id.edit_zip1);

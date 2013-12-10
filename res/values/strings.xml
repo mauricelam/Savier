@@ -45,7 +45,9 @@
     <string name="slash">/</string>
     <string name="title_activity_setup_confirm">Setup</string>
     <string name="confirm">Confirm</string>
-    <string name="setup_confirm">Please confirm the following details:</string>
+    <string name="setup_confirm">Verify details</string>
+    <string name="name_title">Name : </string>
+    <string name="email_title">Email  : </string>
     
     
     

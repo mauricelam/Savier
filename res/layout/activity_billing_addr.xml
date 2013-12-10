@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/edit_city1"
-        android:ems="10"
+        android:ems="5"
         android:hint="@string/default_zip"
         android:inputType="number"        android:maxWidth="5dp" />
 
