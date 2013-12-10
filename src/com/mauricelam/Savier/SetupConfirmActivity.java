@@ -2,8 +2,13 @@ package com.mauricelam.Savier;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,12 +18,6 @@ public class SetupConfirmActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setup_confirm);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.setup_confirm, menu);
 		ProgressBar pBar = (ProgressBar)findViewById(R.id.progressBar4);
 		pBar.setMax(100);
 		pBar.setProgress(99);
@@ -57,14 +56,36 @@ public class SetupConfirmActivity extends Activity {
 		card3.setText(user1.CheckingCard.ExpMonth+"/"+user1.CheckingCard.ExpYear);
 		TextView card4 = (TextView)findViewById(R.id.confirm_card_4);
 		card4.setText(user1.CheckingCard.cvv);
-		Log.e(ACTIVITY_SERVICE, "CARD NAME: " + user1.CheckingCard.name);
-		Log.e(ACTIVITY_SERVICE, "CARD CVV: " +user1.CheckingCard.cvv);
-		Log.e(ACTIVITY_SERVICE, "BILLING LINE2: " +user1.BillingAddress.Line2);
+		
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		
+		final Button submit = (Button) findViewById(R.id.submit_confirm_button);
+	    
+		submit.setOnClickListener(new OnClickListener() {
+
+	        public void onClick(View v) {
+	        		
+	        		
+	        		openSaveActivity();
+	        	
+	        }
+	        });
+	}
+
+	private void openSaveActivity()
+	{
+		Intent intent = new Intent(this, SaveActivity.class);
+		startActivity(intent);
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.setup_confirm, menu);
+		
 		return true;
 	}
 
