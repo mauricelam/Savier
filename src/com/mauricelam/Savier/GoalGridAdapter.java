@@ -66,7 +66,7 @@ public class GoalGridAdapter extends BaseAdapter implements Observer {
 
     @Override
     public void update(Observable observable, Object list) {
-        Log.e("Savier adapter", "Dataset changed");
+        Log.i("Savier adapter", "Dataset changed");
         this.notifyDataSetChanged();
     }
 }

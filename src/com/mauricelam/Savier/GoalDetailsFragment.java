@@ -1,11 +1,12 @@
 package com.mauricelam.Savier;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,25 +31,34 @@ public class GoalDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.goal_detail_fragment, container, false);
     	
        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        
-        nameTextView.setText(goal.getName());
-        
+       nameTextView.setText(goal.getName());
+       
+
+       TextView savingsTextView = (TextView) view.findViewById(R.id.savings);
+       savingsTextView.setText("SAVED:"+" $"+goal.getSaved() +" of " +"$"+goal.getTarget());
+       
+       TextView amazonlinkTextView = (TextView) view.findViewById(R.id.amazonlink);
+       amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getUrl() + "\">" + "View on Amazon" + "</a>"));
+       amazonlinkTextView.setClickable(true);
+       amazonlinkTextView.setMovementMethod (LinkMovementMethod.getInstance());
+//       amazonlinkTextView.setText(goal.getUrl());
+       
         GoalView goalView = (GoalView) view.findViewById(R.id.goalview);
         
         goalView.setGoal(goal);
         
-        Button deleteBtn = (Button) view.findViewById(R.id.delete_button);
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
+        Button undoBtn = (Button) view.findViewById(R.id.undo_button);
+        undoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoalList list = GoalList.instance(getActivity());
-                list.remove(goal);
+//                GoalList list = GoalList.instance(getActivity());
+//                list.remove(goal);
                 //TODO close the dialog box
             }
         });
 
-        Button closeBtn = (Button) view.findViewById(R.id.close_button);
-        closeBtn.setOnClickListener(new View.OnClickListener() {
+        Button autopayBtn = (Button) view.findViewById(R.id.autopay_button);
+        autopayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO close the dialog box                

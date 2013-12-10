@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,36 +18,48 @@ import android.webkit.WebViewClient;
  */
 public class AddGoalActivity extends Activity {
     private boolean enableAddGoal = false;
+    private WebView webView;
 
     // TODO: show a loading indicator while the web page is loading (instead of blank page)
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.add_goal);
 
         // FIXME: Should be set to enabled only if we detect Amazon item ID
         setAddGoalEnabled(true);
+
+        String url = "https://www.amazon.com";
+        if (savedInstanceState != null) {
+            url = savedInstanceState.getString("url");
+        }
+        Log.e("Savier url", url);
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebViewClient(new AmazonWebViewClient());
+        webView.loadUrl(url);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://www.amazon.com");
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("url", webView.getUrl());
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("Savier add goal", "stop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("Savier add goal", "destroy");
+    private class AmazonWebViewClient extends WebViewClient {
+    	@Override
+    	public boolean shouldOverrideUrlLoading(WebView webview, String url) {
+    		webview.loadUrl(url);
+    		setProgressBarIndeterminateVisibility(true);
+    		return true;
+    	}
+    	
+    	@Override
+    	public void onPageFinished(WebView webview, String url) {
+    		super.onPageFinished(webview, url);
+    		setProgressBarIndeterminateVisibility(false);
+    	}
     }
 
     private void setAddGoalEnabled(boolean enabled) {
@@ -61,7 +74,6 @@ public class AddGoalActivity extends Activity {
         inflater.inflate(R.menu.add_goal_menu, menu);
 
         menu.findItem(R.id.action_select_goal).setEnabled(this.enableAddGoal);
-
         return super.onCreateOptionsMenu(menu);
     }
 

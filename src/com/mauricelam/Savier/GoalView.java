@@ -9,15 +9,18 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.DragEvent;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * User: mauricelam
@@ -27,16 +30,19 @@ import java.util.Observer;
 public class GoalView extends ImageView implements Observer {
 
     private Goal goal;
+    private boolean showingDetail;
 
     private Paint progressPaint;
+    private Paint paint;
     private Paint maskPaint;
-    private Paint whitePaint;
     private float strokeWidth;
+    private float arrowSize;
+
+    private RectF circle;
 
     private Canvas imageCanvas;
     private Canvas croppedCanvas;
 
-    private Bitmap imageBitmap;
     private Bitmap croppedBitmap;
 
     private String imageURL;
@@ -61,16 +67,19 @@ public class GoalView extends ImageView implements Observer {
         progressPaint.setStyle(Paint.Style.STROKE);
         progressPaint.setStrokeWidth(strokeWidth);
 
+        arrowSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 55, getResources().getDisplayMetrics());
+
+        paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+
         maskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         maskPaint.setStrokeWidth(0);
-        maskPaint.setColor(Color.WHITE);
-
-        whitePaint = new Paint();
-        whitePaint.setStyle(Paint.Style.FILL);
-        whitePaint.setColor(Color.WHITE);
 
         imageCanvas = new Canvas();
         croppedCanvas = new Canvas();
+
+        circle = new RectF();
     }
 
     public void setGoal(Goal goal) {
@@ -85,40 +94,39 @@ public class GoalView extends ImageView implements Observer {
 
     @Override
     public boolean onDragEvent(DragEvent dragEvent) {
-        if (dragEvent.getAction() == DragEvent.ACTION_DRAG_STARTED) {
-            Log.w("Savier drag", "start");
-            if ("money".equals(dragEvent.getClipDescription().getLabel())) {
+        switch (dragEvent.getAction()) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                Log.w("Savier drag", "start");
+                if ("money".equals(dragEvent.getClipDescription().getLabel())) {
+                    return true;
+                }
+            case DragEvent.ACTION_DROP:
+                Log.w("Savier drag", "drop");
+                String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
+                int amount = Integer.parseInt(stringAmount);
+                Log.d("Savier save", amount + "");
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                String amountString = formatter.format(amount / 100.0);
+                goal.setSaved(goal.getSaved() + amount);
+                Toast toast = Toast.makeText(getContext(), "Saved " + amountString + " to " + goal.getName(), Toast.LENGTH_SHORT);
+                toast.show();
                 return true;
-            }
-        } else if (dragEvent.getAction() == DragEvent.ACTION_DROP) {
-            Log.w("Savier drag", "drop");
-            String stringAmount = (String) dragEvent.getClipData().getItemAt(0).getText();
-            int amount = Integer.parseInt(stringAmount);
-            Log.d("Savier save", amount + "");
-            goal.setSaved(goal.getSaved() + amount);
-            return true;
         }
         return super.onDragEvent(dragEvent);
     }
 
-    private Bitmap getImageBitmap(int width, int height) {
-        if (imageBitmap == null || imageBitmap.getWidth() != width || imageBitmap.getHeight() != height) {
-            if (imageBitmap != null) {
-                imageBitmap.recycle();
-            }
-            imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        }
-        return imageBitmap;
-    }
+    private boolean prepareCroppedBitmap(int width, int height, float radius) {
+        Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        imageCanvas.setBitmap(imageBitmap);
+        super.onDraw(imageCanvas);
 
-    private Bitmap getCroppedBitmap(int width, int height) {
-        if (croppedBitmap == null || croppedBitmap.getWidth() != width || croppedBitmap.getHeight() != height) {
-            if (croppedBitmap != null) {
-                croppedBitmap.recycle();
-            }
-            croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        }
-        return croppedBitmap;
+        croppedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        croppedCanvas.setBitmap(croppedBitmap);
+        maskPaint.setXfermode(null);
+        croppedCanvas.drawCircle(width / 2, height / 2, radius, maskPaint);
+        maskPaint.setXfermode(SRC_IN);
+        croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
+        return true;
     }
 
     @Override
@@ -129,24 +137,21 @@ public class GoalView extends ImageView implements Observer {
         final float halfHeight = height/2;
         final float radius = Math.min(halfWidth, halfHeight) - strokeWidth;
 
-        canvas.drawCircle(halfWidth, halfHeight, radius, whitePaint);
+        // Draw amount saved
+        if (showingDetail) {
+            Bitmap arrow = BitmapFactory.decodeResource(getResources(), R.drawable.goalview_arrow);
+            canvas.drawBitmap(arrow, width - arrowSize, height - arrowSize, null);
+        }
+
+        canvas.drawCircle(halfWidth, halfHeight, radius, paint);
 
         if (this.goal != null) {
-            Bitmap imageBitmap = getImageBitmap(width, height);
-            imageCanvas.setBitmap(imageBitmap);
-            super.onDraw(imageCanvas);
-
-            Bitmap croppedBitmap = getCroppedBitmap(width, height);
-            croppedCanvas.setBitmap(croppedBitmap);
-            maskPaint.setXfermode(null);
-            croppedCanvas.drawCircle(halfWidth, halfHeight, radius, maskPaint);
-            maskPaint.setXfermode(SRC_IN);
-            croppedCanvas.drawBitmap(imageBitmap, 0, 0, maskPaint);
-
+            prepareCroppedBitmap(width, height, radius);
             canvas.drawBitmap(croppedBitmap, 0, 0, null);
         }
 
-        RectF circle = new RectF(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);
+        circle.set(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);
+
         progressPaint.setColor(Color.LTGRAY);
         canvas.drawArc(circle, 270, 360, false, progressPaint);
 
@@ -183,6 +188,26 @@ public class GoalView extends ImageView implements Observer {
         this.invalidate();
     }
 
+    public boolean isShowingDetail() {
+        return showingDetail;
+    }
+
+    private void setShowingDetail(boolean showing) {
+        this.showingDetail = showing;
+        this.postInvalidate();
+    }
+
+    public void showDetail() {
+        setShowingDetail(true);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                setShowingDetail(false);
+            }
+        }, 5000);
+    }
+
 
     private class ImageLoader extends AsyncTask<String, Void, Drawable> {
 
@@ -202,4 +227,5 @@ public class GoalView extends ImageView implements Observer {
             GoalView.this.setImageDrawable(drawable);
         }
     }
+
 }

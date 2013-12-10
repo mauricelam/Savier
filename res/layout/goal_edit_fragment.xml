@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:minWidth="300dp" android:padding="5dp">
+
+   <com.mauricelam.Savier.GoalView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/goalview"
+            android:layout_alignParentLeft="true" android:layout_alignParentTop="true"/> 
+            
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editname"
+            android:inputType="text"
+            android:layout_toRightOf="@+id/goalview" android:layout_alignTop="@+id/goalview"
+            android:gravity="center_vertical|left"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editsavings"
+            android:layout_toRightOf="@+id/goalview" android:layout_below="@+id/editname" 
+            android:gravity="center_vertical|left" android:textSize="20sp"
+            android:layout_alignParentRight="true" android:layout_marginLeft="5dp"/>
+     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editamazonlink"
+            android:layout_toRightOf="@+id/goalview" android:layout_below="@+id/editsavings"
+            android:gravity="center_vertical|left" android:textSize="12sp"
+            android:layout_alignParentRight="true" android:layout_marginLeft="5dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+      		android:inputType="textMultiLine"
+            android:text="@string/lorem"
+            android:id="@+id/editdescription"
+            android:maxLines="10"
+            android:layout_alignParentLeft="true" android:layout_below="@+id/goalview"
+            android:layout_alignRight="@+id/editname" android:padding="5dp"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/editdescription" android:gravity="center">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SAVE"
+                android:id="@+id/save_button" android:layout_gravity="center"/>
+       
+    </LinearLayout>
+</RelativeLayout>

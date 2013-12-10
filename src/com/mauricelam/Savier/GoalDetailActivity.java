@@ -1,40 +1,21 @@
 package com.mauricelam.Savier;
 
-import java.util.Locale;
-
 import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
+import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class GoalDetailActivity extends FragmentActivity implements
-		ActionBar.TabListener {
-
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	//SectionsPagerAdapter mSectionsPagerAdapter;
+public class GoalDetailActivity extends FragmentActivity implements ActionBar.TabListener {
+    //SectionsPagerAdapter mSectionsPagerAdapter;
 	GoalPagerAdapter goalPageAdapter;
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	ViewPager mViewPager;
 	
 	private Goal goal;
@@ -42,7 +23,7 @@ public class GoalDetailActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
         this.goal = (Goal) getIntent().getExtras().getSerializable("goal");
         System.out.println("Goal Received :"+this.goal.getName());
 		setContentView(R.layout.activity_goal_detail);
@@ -110,10 +91,7 @@ public class GoalDetailActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	
-	
-	
-	public class GoalPagerAdapter extends FragmentPagerAdapter{
+	public class GoalPagerAdapter extends FragmentPagerAdapter {
 
 		public GoalPagerAdapter(FragmentManager fm) {
 	        super(fm);
@@ -124,37 +102,14 @@ public class GoalDetailActivity extends FragmentActivity implements
 			
 			switch(page){
 			case 0:
-				/*Fragment fragment0 = new DummySectionFragment();
-				Bundle args0 = new Bundle();
-				args0.putInt(DummySectionFragment.ARG_SECTION_NUMBER, page + 1);
-				fragment0.setArguments(args0);
-				return fragment0;*/
-				/*Fragment goalDetailsFragment = new GoalDetailsFragment();
-				Bundle args = new Bundle();
-				args.putSerializable("goal", goal);
-				goalDetailsFragment.setArguments(args);
-				return goalDetailsFragment;*/
-				
 				GoalDetailsFragment detailsFragment = GoalDetailsFragment.newInstance(goal);
 				return detailsFragment;
-		        //FragmentManager fragmentManager = getFragmentManager();
-		        
-				// return new TopRatedFragment();
 			case 1:
-				//TODO
-				Fragment fragment = new DummySectionFragment();
-				Bundle args1 = new Bundle();
-				args1.putInt(DummySectionFragment.ARG_SECTION_NUMBER, page + 1);
-				fragment.setArguments(args1);
-				return fragment;
-				//System.out.println("case1");
+				GoalEditFragment editFragment = GoalEditFragment.newInstance(goal);
+				return editFragment;
 			case 2:
-				//TODO
-				Fragment fragment1 = new DummySectionFragment();
-				Bundle args2 = new Bundle();
-				args2.putInt(DummySectionFragment.ARG_SECTION_NUMBER, page + 1);
-				fragment1.setArguments(args2);
-				return fragment1;
+				GoalHistoryFragment historyFragment = GoalHistoryFragment.newInstance(goal);
+				return historyFragment;
 			}
 			
 			return null;
@@ -181,9 +136,6 @@ public class GoalDetailActivity extends FragmentActivity implements
 		}
 
 	}
-	
-	
-	
 
 	
 	/**

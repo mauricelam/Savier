@@ -3,10 +3,13 @@ package com.mauricelam.Savier;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
+import java.util.Observable;
 
 /**
  * User: mauricelam
@@ -29,7 +32,9 @@ public class Storage {
     private void init(SharedPreferences prefs) {
         this.prefs = prefs;
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Goal.class, new InterfaceAdapter<Goal>());
+        gsonBuilder
+                .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
+                .registerTypeAdapter(Goal.class, new InterfaceAdapter<Goal>());
         this.gson = gsonBuilder.create();
     }
 
@@ -43,6 +48,20 @@ public class Storage {
         String json = prefs.getString(key, "");
         Log.w("Savier get", json);
         return gson.fromJson(json, type);
+    }
+
+    private static class SerializationExclusionStrategy implements ExclusionStrategy {
+
+        @Override
+        public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+            Class<?> aClass = fieldAttributes.getDeclaringClass();
+            return aClass == Observable.class || aClass == WeakObservable.class;
+        }
+
+        @Override
+        public boolean shouldSkipClass(Class<?> aClass) {
+            return false;
+        }
     }
 
 }

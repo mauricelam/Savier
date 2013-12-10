@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-
+import com.mauricelam.Savier.GoalDetailActivity;
 public class SaveActivity extends Activity {
 
     GoalGridAdapter adapter;
@@ -22,7 +22,12 @@ public class SaveActivity extends Activity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                openGoalDetail(adapter.getItem(position), v, position);
+                GoalView goalView = (GoalView) v;
+                if (goalView.isShowingDetail()) {
+                    openGoalDetail(adapter.getItem(position), v, position);
+                } else {
+                    goalView.showDetail();
+                }
             }
         });
 
@@ -75,6 +80,9 @@ public class SaveActivity extends Activity {
             case R.id.action_add_goal:
                 startAddGoalActivity();
                 return true;
+            case R.id.open_setup_action:
+                startSetupActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -84,16 +92,13 @@ public class SaveActivity extends Activity {
         Intent intent = new Intent(this, AddGoalActivity.class);
         startActivity(intent);
     }
+    private void startSetupActivity() {
+        Intent intent = new Intent(this, VideoActivity.class);
+        startActivity(intent);
+    }
 
     private void openGoalDetail(Goal goal, View v, int position) {
-    	
- /*      GoalDetailFragment detailFragment = GoalDetailFragment.newInstance(goal);
-        FragmentManager fragmentManager = getFragmentManager();
-        detailFragment.show(fragmentManager, "goal_detail_fragment");
- */
-        /*Bundle args = new Bundle();
-        args.putSerializable("goal", goal); */
-       	Intent intent = new Intent(this, GoalDetailActivity.class);
+    	Intent intent = new Intent(this, GoalDetailActivity.class);
        	intent.putExtra("goal", goal);
        	
         startActivity(intent);
