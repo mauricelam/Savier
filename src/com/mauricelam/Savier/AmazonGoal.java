@@ -1,21 +1,5 @@
 package com.mauricelam.Savier;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.amazon.advertising.api.sample.SignedRequestsHelper;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import android.util.Log;
-
-import com.amazon.advertising.api.sample.SignedRequestsHelper;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,83 +7,87 @@ import java.util.Map;
  */
 public class AmazonGoal extends Goal {
 
-	private String imageUrl;
-	private String amazonId;
+	private String productID;
+	private String title;
+	private String url;
+	private String imageURL;
+	private double price;
+	private String priceFormatted;
 	
-	private static final String SECRET_KEY = "9MBo0ETT15LZ9wJOcPI2dI0iH+sVauLPSgTZIhMT";
-	private static final String AWS_KEY = "AKIAIZABATABRL7L45MQ";
-	private static final String ASSOCIATE_TAG = "savier05-20";
-
 	protected AmazonGoal() {
 		// no-arg constructor for GSON
 		super();
 	}
 
-	public AmazonGoal(String name, double target, String amazonId,
-			String imageUrl, String url) {
-		super(name, target, url);
-		this.amazonId = amazonId;
-		this.imageUrl = imageUrl;
+	public AmazonGoal(Map<String, String> productInfo) {
+		super(productInfo.get("Title"), Double.parseDouble(productInfo.get("Price")), 
+				productInfo.get("URL"), productInfo.get("Description"));
+		this.setProductID(new String(productInfo.get("ProductID")));
+		this.setTitle(new String(productInfo.get("Title")));
+		this.setImageURL(new String(productInfo.get("ImageURL")));
+		this.priceFormatted = new String(productInfo.get("Price"));
+	}
+	
+	/**
+	 * Constructor with the user customized name
+	 * @param productInfo
+	 */
+	public AmazonGoal(Map<String, String> productInfo, String goalName) {
+		super(goalName, Double.parseDouble(productInfo.get("Price")), 
+				productInfo.get("URL"), productInfo.get("Description"));
+		this.setProductID(new String(productInfo.get("ProductID")));
+		this.setTitle(new String(productInfo.get("Title")));
+		this.setImageURL(new String(productInfo.get("ImageURL")));
+		this.priceFormatted = new String(productInfo.get("Price"));
 	}
 
-	@Override
+	public String getProductID() {
+		return productID;
+	}
+
+	public void setProductID(String productID) {
+		this.productID = productID;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getURL() {
+		return url;
+	}
+	
+	public void setURL(String url) {
+		this.url = url;
+	}
+
 	public String getImageURL() {
-		return this.imageUrl;
+		return imageURL;
 	}
 
-	public static AmazonGoal fromId(String amazonId) {
-		// Query the amazon API here, and set the correct target
-		
-		String itemTitle = null;
-		double itemPrice = 0.0;
-		String itemPriceFormatted = null; // in String format, e.g. "$199.99"
-		String itemImageURL = null;
-		String itemURL = null;
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
 
-		SignedRequestsHelper helper = null;
-		try {
-			helper = SignedRequestsHelper.getInstance("ecs.amazonaws.com", AWS_KEY, SECRET_KEY);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public double getPrice() {
+		return price;
+	}
 
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("Service", "AWSECommerceService");
-		params.put("Operation", "ItemLookup");
-		params.put("ItemId", amazonId);
-		params.put("ResponseGroup", "Large");
-		params.put("AssociateTag", ASSOCIATE_TAG);
+	public void setPrice(double price) {
+		this.price = price;
+		this.priceFormatted = Double.toString(price);
+	}
 
-		String url = helper.sign(params);
-		Log.d("queryURL", url);
-		try {
-			/* Get XML Object */
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document response = builder.parse(url);
-			response.getDocumentElement().normalize();
-			
-			/* Item Title */
-			itemTitle = (response.getElementsByTagName("Title").item(0)).getTextContent();
-			
-			/* Item Price */
-			Element bestOffer = (Element)(response.getElementsByTagName("Price").item(0));
-			itemPriceFormatted = bestOffer.getElementsByTagName("FormattedPrice").item(0).getTextContent();
-			String itemPriceAmountString = bestOffer.getElementsByTagName("Amount").item(0).getTextContent();
-			int itemPriceAmountInt = Integer.parseInt(itemPriceAmountString);
-			itemPrice = itemPriceAmountInt / 100.;
-			
-			/* Item ImageURL */			
-			itemImageURL = ((Element)response.getElementsByTagName("MediumImage").item(0))
-					.getElementsByTagName("URL").item(0).getTextContent();
-			
-			/* Item URL */
-			itemURL = (response.getElementsByTagName("DetailPageURL").item(0)).getTextContent();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public String getPriceFormatted() {
+		return imageURL;
+	}
 
-		return new AmazonGoal(itemTitle, itemPrice, amazonId, itemImageURL, itemURL);
+	public String getDescription() {
+		return super.getDscription();
 	}
 	
 }

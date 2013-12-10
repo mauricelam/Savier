@@ -22,11 +22,38 @@ public class AmazonProductLookup {
 	private final String ASSOCIATE_TAG = "savier05-20";
 	
 	private String productID;
+	private String itemTitle = null;
+	private double itemPrice = 0.0;
+	private String itemPriceFormatted = null; // in String format, e.g. "$199.99"
+	private String itemImageURL = null;
+	private String itemURL = null;
+	private String itemDescription = null;
 	
 	public AmazonProductLookup(String productID) {
 		this.productID = productID;
 	}
 	
+	/**
+	 * Return only the string values
+	 * 
+	 * @return 
+	 */
+	public Map<String, String> lookup() {
+		
+		Map<String, String> result; // = new HashMap<String, String>();
+		// Query the amazon API here, and set the correct target
+		LookupTask lookup = new LookupTask();
+		try {
+			result = lookup.execute(productID).get();
+		} catch (Exception e) {
+			result = null;
+		}
+		return result;
+	}
+	
+	public double getPrice() {
+		return itemPrice;
+	}
 	
 	private class LookupTask extends AsyncTask<String, Void, Map<String, String>> {
 
@@ -35,13 +62,6 @@ public class AmazonProductLookup {
 			String productID = params[0];
 			Map<String, String> result = new HashMap<String, String>();
 			
-			String itemTitle = null;
-			double itemPrice = 0.0;
-			String itemPriceFormatted = null; // in String format, e.g. "$199.99"
-			String itemImageURL = null;
-			String itemURL = null;
-			String itemDescription = null;
-
 			SignedRequestsHelper helper = null;
 			try {
 				helper = SignedRequestsHelper.getInstance("ecs.amazonaws.com", AWS_KEY, SECRET_KEY);
@@ -89,6 +109,7 @@ public class AmazonProductLookup {
 				e.printStackTrace();
 			}
 			
+			result.put("ProdectID", productID);
 			result.put("Title", itemTitle);
 			result.put("Price", itemPriceFormatted);
 			result.put("ImageURL", itemImageURL);
@@ -100,22 +121,6 @@ public class AmazonProductLookup {
 		}
 		
 	}
-	/**
-	 * 
-	 * @param amazonId
-	 * @return 
-	 */
-	public Map<String, String> lookup() {
-		
-		Map<String, String> result; // = new HashMap<String, String>();
-		// Query the amazon API here, and set the correct target
-		LookupTask lookup = new LookupTask();
-		try {
-			result = lookup.execute(productID).get();
-		} catch (Exception e) {
-			result = null;
-		}
-		return result;
-	}
+	
 	
 }

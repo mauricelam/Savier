@@ -23,6 +23,8 @@ public class ConfirmGoalActivity extends Activity {
 	private String itemURL;
 	private String itemDescription;
 	
+	private AmazonGoal amazonGoal;
+	private String customGoalName = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,10 @@ public class ConfirmGoalActivity extends Activity {
 		this.itemImageURL = productInfo.get("ImageURL");
 		this.itemURL = productInfo.get("URL");
 		this.itemDescription = productInfo.get("Description");
+		
+		// TODO: Option for user to enter their desired goal name
+		this.amazonGoal = customGoalName == null ? new AmazonGoal(productInfo) :
+			new AmazonGoal(productInfo, customGoalName);
 		
 		Log.d("New Goal Title", itemTitle);
 		Log.d("New Goal Description", itemDescription);
