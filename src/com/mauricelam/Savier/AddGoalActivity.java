@@ -89,7 +89,7 @@ public class AddGoalActivity extends Activity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_goal_menu, menu);
-        menu.findItem(R.id.action_select_goal).setEnabled(this.enableAddGoal);
+        menu.findItem(R.id.action_select_goal).setVisible(this.enableAddGoal);
 
         return super.onCreateOptionsMenu(menu);
     }
