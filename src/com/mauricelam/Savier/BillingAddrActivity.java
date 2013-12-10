@@ -23,15 +23,40 @@ public class BillingAddrActivity extends Activity {
 		pb1.setMax(100);
 		pb1.setProgress(40);
 		Intent intent = getIntent();
+		final EditText addr1Text = (EditText)findViewById(R.id.edit_shipping_address1);
+		//addr1Text.requestFocus();
 		byte[] passedData = intent.getByteArrayExtra("USER_DATA");
 		final UserData user = deserializeData(passedData);
-		final Button submit = (Button) findViewById(R.id.submit_billing_info_button);
+		UserData user1 = null;
+		Bundle b = this.getIntent().getExtras();
+		if(b!=null)
+		{
+		    user1 = (UserData) b.getSerializable("US");
+		}
+		
+		final UserData user2=user1;
+			final Button submit = (Button) findViewById(R.id.submit_billing_info_button);
         
 		submit.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
             		fetchData(user);
-            		openGetCardActivity(user);
+            		final EditText addr1 = (EditText)findViewById(R.id.edit_shipping_address1);
+            		final EditText addr2 = (EditText)findViewById(R.id.edit_shipping_address2);
+            		final EditText city = (EditText)findViewById(R.id.edit_city1);
+            		final EditText state = (EditText)findViewById(R.id.edit_state1);
+            		final EditText zip = (EditText)findViewById(R.id.edit_zip1);
+            		Address billAddr = null;
+            		try{
+            			billAddr = new Address(addr1.getText().toString(),addr2.getText().toString(), city.getText().toString(), state.getText().toString(), zip.getText().toString() );
+            		}
+            		catch(Exception e)
+            		{
+            			billAddr = new Address();
+            		}
+            		
+					user2.setBillingAddr(billAddr);
+            		openGetCardActivity(user2);
             	
             }
             });
@@ -93,19 +118,16 @@ public class BillingAddrActivity extends Activity {
 	{
 		Intent intent = new Intent(this, CardActivity.class);
 		byte[] serialUserData = serializeData(user);
+		Bundle b = new Bundle();
 		intent.putExtra("USER_DATA", serialUserData);
-        startActivity(intent);
+		b.putSerializable("US", user);
+		intent.putExtras(b);
+		startActivity(intent);
 	}
 	
 	private void fetchData(UserData user)
 	{
-		final EditText addr1 = (EditText)findViewById(R.id.edit_shipping_address1);
-		final EditText addr2 = (EditText)findViewById(R.id.edit_shipping_address2);
-		final EditText city = (EditText)findViewById(R.id.edit_city1);
-		final EditText state = (EditText)findViewById(R.id.edit_state1);
-		final EditText zip = (EditText)findViewById(R.id.edit_zip1);
-		Address billAddr = new Address(addr1.getText().toString(),addr2.getText().toString(), city.getText().toString(), state.getText().toString(), zip.getText().toString() );
-		user.setBillingAddr(billAddr);
+		
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +26,9 @@ public class CardActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_card);
+		ProgressBar pb1 = (ProgressBar)findViewById(R.id.progressBar3);
+		pb1.setMax(100);
+		pb1.setProgress(67);
 		Intent intent = getIntent();
 		byte[] passedData = intent.getByteArrayExtra("USER_DATA");
 		final UserData user = deserializeData(passedData);
@@ -42,8 +50,36 @@ public class CardActivity extends Activity {
 		}
 		cardLayout.addView(myText);*/
 		
-		TextView tv = (TextView)findViewById(R.id.card_text);
-		tv.setText(user1.fName);
+		TextView tv = (TextView)findViewById(R.id.edit_name);
+		if(user1.fName.length()>1)
+			tv.setText((user1.fName+" "+user1.lName).toUpperCase());
+		
+		final UserData user2=user1;
+		final Button submit = (Button) findViewById(R.id.submit_card_button);
+    
+	submit.setOnClickListener(new OnClickListener() {
+
+        public void onClick(View v) {
+        		
+        		final EditText cardNum = (EditText)findViewById(R.id.edit_card_number);
+        		final EditText cardName = (EditText)findViewById(R.id.edit_name);
+        		final EditText expMonth = (EditText)findViewById(R.id.edit_month);
+        		final EditText expYear = (EditText)findViewById(R.id.edit_year);
+        		final EditText cvv = (EditText)findViewById(R.id.edit_cvv);
+        		Card CardDetails = null;
+        		try{
+        			CardDetails = new Card(cardNum.getText().toString(),cardName.getText().toString(), expMonth.getText().toString(), expYear.getText().toString(), cvv.getText().toString() );
+        		}
+        		catch(Exception e)
+        		{
+        			CardDetails = new Card();
+        		}
+        		
+				user2.addCard(CardDetails);
+        		openConfirmActivity(user2);
+        	
+        }
+        });
 	}
 
 	private byte[] serializeData(UserData user)
@@ -98,7 +134,16 @@ public class CardActivity extends Activity {
 		  return ud;
 		}
 	}
-
+	private void openConfirmActivity(UserData user)
+	{
+		Intent intent = new Intent(this, SetupConfirmActivity.class);
+		byte[] serialUserData = serializeData(user);
+		Bundle b = new Bundle();
+		intent.putExtra("USER_DATA", serialUserData);
+		b.putSerializable("US", user);
+		intent.putExtras(b);
+		startActivity(intent);
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

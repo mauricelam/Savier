@@ -22,7 +22,7 @@ public class UserData implements Serializable {
 		email = "abc@xyz.com";
 		ShippingAddress = new Address();
 		BillingAddress = new Address();
-		CheckingCard = new Card(fName, lName);
+		CheckingCard = new Card();
 	}
 	
 	public void setData(String a, String b, String c)
@@ -47,6 +47,10 @@ public class UserData implements Serializable {
 		ShippingAddress = d;
 		BillingAddress = e;
 		
+	}
+	public void addCard(Card card)
+	{
+		CheckingCard = card;
 	}
 	
 	public void setBillingAddr(Address a)

@@ -9,14 +9,103 @@
     android:id="@+id/card_view"
     tools:context=".CardActivity" >
 
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:paddingTop="12dp"
+        
+         />
+    
     <TextView
-        android:id="@+id/card_text"
+        android:id="@+id/card_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/progressBar3"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="5dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/card_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"  />
+    
+    <EditText
+        android:id="@+id/edit_card_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/card_header"
+        android:layout_below="@+id/card_header"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="@string/default_card_number"
+        android:inputType="number"
+        android:maxLength="16"
+        android:focusable="true" 
+        />
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_card_number"
+        android:layout_below="@+id/edit_card_number"
+        android:ems="10"
+        android:hint="@string/default_name"
+        android:inputType="textPersonName" ></EditText>
+
+<EditText
+    android:id="@+id/edit_month"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/edit_name"
+    android:layout_below="@+id/edit_name"
+    android:ems="3"
+    android:hint="@string/default_month"
+    android:inputType="number"
+    android:maxLength="2" >
+</EditText>
+        <EditText
+        android:id="@+id/edit_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edit_month"
+             android:layout_alignBottom="@+id/edit_month"
+             android:layout_toRightOf="@+id/edit_month"
+        android:ems="3"
+        android:hint="@string/default_year"
+        android:inputType="number"
+        android:maxLength="2" > </EditText>
+        <EditText
+        android:id="@+id/edit_cvv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_name"
+        android:layout_below="@+id/card_slash"
+        android:ems="3"
+        android:hint="@string/default_cvv"
+        android:inputType="number"
+        android:maxLength="3" > </EditText>
+         <Button
+        android:id="@+id/submit_card_button"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/edit_year"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="112dp"
-        android:layout_marginTop="196dp"
         android:text="@string/next" />
+
+         <TextView
+             android:id="@+id/card_slash"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@+id/edit_month"
+             android:layout_alignBottom="@+id/edit_month"
+             android:layout_toRightOf="@+id/edit_month"
+             android:ems="10"
+             android:text="@string/slash" />
 
 </RelativeLayout>

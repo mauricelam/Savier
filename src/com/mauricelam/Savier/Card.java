@@ -8,21 +8,28 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Card implements Serializable {
-		int[] num;
-		int[] ExpMonth;
-		int[] ExpYear;
-		String fName;
-		String lName;
-		int[] cvv;
+		long num;
+		int ExpMonth;
+		int ExpYear;
+		String name;
+		int cvv;
 		
-		Card(String fn, String ln)
+		Card()
 		{
-			num = new int[16];
-			ExpMonth = new int[2];
-			ExpYear = new int[2];
-			fName = fn;
-			lName = ln;
-			cvv = new int[3];
+			num = 0;
+			ExpMonth = 0;
+			ExpYear = 0;
+			this.name = " ";
+			cvv = 0;
 		}
+		Card(String number,  String nameString, String ExpMonth, String ExpYear, String cvv)
+		{
+			num = Long.parseLong(number);
+			this.ExpMonth = Integer.parseInt(ExpMonth);
+			this.ExpYear = Integer.parseInt(ExpYear);
+			this.name = name;
+			this.cvv = Integer.parseInt(cvv);
+		}
+		
 
 }
