@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,12 +68,19 @@ public class CardActivity extends Activity {
         		final EditText expMonth = (EditText)findViewById(R.id.edit_month);
         		final EditText expYear = (EditText)findViewById(R.id.edit_year);
         		final EditText cvv = (EditText)findViewById(R.id.edit_cvv);
+        		final String name;
         		Card CardDetails = null;
+        		
+        			name = cardName.getText().toString();
+        		
         		try{
-        			CardDetails = new Card(cardNum.getText().toString(),cardName.getText().toString(), expMonth.getText().toString(), expYear.getText().toString(), cvv.getText().toString() );
+        			//Log.e(ACTIVITY_SERVICE, name);
+        			//Log.e(ACTIVITY_SERVICE, String.valueOf(cvv.getText().toString()));
+        			CardDetails = new Card(cardNum.getText().toString(),name, expMonth.getText().toString(), expYear.getText().toString(), cvv.getText().toString() );
         		}
         		catch(Exception e)
         		{
+        			e.printStackTrace();
         			CardDetails = new Card();
         		}
         		

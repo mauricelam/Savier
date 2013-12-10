@@ -22,7 +22,7 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="per_info_header">Please Enter Your Personal Information</string>
-    <string name="setup_title">Setup</string>
+    <string name="setup_title">Personal Information</string>
     <string name="start_setup">Start Setup</string>
     <string name="billing_address_checkbox">Billing Address is same as Shipping Address</string>
     <string name="default_first_name">First Name</string>
@@ -48,6 +48,8 @@
     <string name="slash">/</string>
     <string name="title_activity_setup_confirm">Setup</string>
     <string name="confirm">Confirm</string>
-    <string name="setup_confirm">Please confirm the following details:</string>
+    <string name="setup_confirm">Verify details</string>
+    <string name="name_title">Name : </string>
+    <string name="email_title">Email  : </string>
 
 </resources>
