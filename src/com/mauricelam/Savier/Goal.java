@@ -17,6 +17,7 @@ public abstract class Goal extends WeakObservable implements Serializable {
     private int saved = 0;
     private String name;
     private String url;
+    private String description;
 
     private String id;
 
@@ -28,13 +29,14 @@ public abstract class Goal extends WeakObservable implements Serializable {
         }
     }
 
-    public Goal(String name, double target2, String url) {
+    public Goal(String name, double target2, String url, String description) {
         super();
         Log.d("Savier goal", "construct");
         this.target = target2;
         this.name = name;
         this.url = url;
         this.id = UUID.randomUUID().toString();
+        this.description = description;
     }
 
     public abstract String getImageURL();
@@ -74,6 +76,10 @@ public abstract class Goal extends WeakObservable implements Serializable {
         this.url = url;
     }
 
+	public String getDscription() {
+		return description;
+	}
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Goal))
@@ -86,4 +92,5 @@ public abstract class Goal extends WeakObservable implements Serializable {
     public int hashCode() {
         return id.hashCode();
     }
+
 }

@@ -44,8 +44,8 @@ public class AddGoalActivity extends Activity {
     private class AmazonWebViewClient extends WebViewClient {
     	@Override
     	public boolean shouldOverrideUrlLoading(WebView webview, String url) {
-    		webview.loadUrl(url);
     		setProgressBarIndeterminateVisibility(true);
+    		webview.loadUrl(url);
 			Log.d("currURL", url);
     		return true;
     	}
