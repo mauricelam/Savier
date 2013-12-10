@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 /**
  * User: mauricelam
@@ -22,6 +23,12 @@ public class ConfirmGoalActivity extends Activity {
 	private String itemImageURL;
 	private String itemURL;
 	private String itemDescription;
+	
+	TextView goalName;
+	TextView goalPrice;
+	TextView goalURL;
+	TextView goalDescription;
+	GoalView goalView;
 	
 	private AmazonGoal amazonGoal;
 	private String customGoalName = null;
@@ -43,6 +50,19 @@ public class ConfirmGoalActivity extends Activity {
 		this.amazonGoal = customGoalName == null ? new AmazonGoal(productInfo) :
 			new AmazonGoal(productInfo, customGoalName);
 		
+		goalName = (TextView)findViewById(R.id.name);
+		goalPrice = (TextView)findViewById(R.id.savings);
+		goalURL = (TextView)findViewById(R.id.amazonlink);
+		goalDescription = (TextView)findViewById(R.id.description);
+		goalView = (GoalView)findViewById(R.id.goalview);
+				
+		goalName.setText(itemTitle);
+		goalPrice.setText(itemPriceFormatted);
+		goalURL.setText(itemURL);
+		goalDescription.setText(itemDescription);
+		goalView.setGoal(amazonGoal);
+
+		
 		Log.d("New Goal Title", itemTitle);
 		Log.d("New Goal Description", itemDescription);
 
@@ -62,7 +82,7 @@ public class ConfirmGoalActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_confirm_goal:
                 Intent intent = new Intent(this, SaveActivity.class);
-                intent.putExtra("add_goal", true);
+                intent.putExtra("newAmazonGoal", amazonGoal);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;

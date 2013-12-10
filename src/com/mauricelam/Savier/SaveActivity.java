@@ -46,7 +46,7 @@ public class SaveActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.parseIntent(getIntent());
+        this.parseIntent(getIntent()); 
     }
 
     @Override
@@ -56,12 +56,14 @@ public class SaveActivity extends Activity {
     }
 
     private void parseIntent(Intent intent) {
-        if (intent.hasExtra("add_goal")) {
+        if (intent.hasExtra("newAmazonGoal")) {
             // TODO: make a real goal out of extra info
-            Goal goal = AmazonGoal.fromId("blah");
-            goal.setSaved((int) (Math.random() * 10000));
-            adapter.getList().add(goal);
-            intent.removeExtra("add_goal");
+        	//Bundle bundle = getIntent().getExtras();
+        	Goal goal = (AmazonGoal)intent.getSerializableExtra("newAmazonGoal");
+    		
+            //goal.setSaved((int) (Math.random() * 10000));
+            adapter.getList().add(goal); // FIXME CRASHING HERE
+            intent.removeExtra("newAmazonGoal");
         }
     }
 

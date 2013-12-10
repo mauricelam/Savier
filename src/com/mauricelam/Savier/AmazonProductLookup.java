@@ -109,7 +109,7 @@ public class AmazonProductLookup {
 				e.printStackTrace();
 			}
 			
-			result.put("ProdectID", productID);
+			result.put("ProductID", productID);
 			result.put("Title", itemTitle);
 			result.put("Price", itemPriceFormatted);
 			result.put("ImageURL", itemImageURL);

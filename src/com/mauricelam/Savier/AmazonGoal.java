@@ -9,9 +9,7 @@ public class AmazonGoal extends Goal {
 
 	private String productID;
 	private String title;
-	private String url;
 	private String imageURL;
-	private double price;
 	private String priceFormatted;
 	
 	protected AmazonGoal() {
@@ -20,7 +18,7 @@ public class AmazonGoal extends Goal {
 	}
 
 	public AmazonGoal(Map<String, String> productInfo) {
-		super(productInfo.get("Title"), Double.parseDouble(productInfo.get("Price")), 
+		super(productInfo.get("Title"), Double.parseDouble(productInfo.get("Price").substring(1)), 
 				productInfo.get("URL"), productInfo.get("Description"));
 		this.setProductID(new String(productInfo.get("ProductID")));
 		this.setTitle(new String(productInfo.get("Title")));
@@ -58,13 +56,9 @@ public class AmazonGoal extends Goal {
 	}
 
 	public String getURL() {
-		return url;
+		return super.getUrl();
 	}
 	
-	public void setURL(String url) {
-		this.url = url;
-	}
-
 	public String getImageURL() {
 		return imageURL;
 	}
@@ -74,12 +68,7 @@ public class AmazonGoal extends Goal {
 	}
 
 	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-		this.priceFormatted = Double.toString(price);
+		return super.getTarget();
 	}
 
 	public String getPriceFormatted() {

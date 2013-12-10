@@ -15,7 +15,7 @@ public class CustomGoal extends Goal {
     }
 
     public CustomGoal(String name, int target, String url, String imageUrl) {
-        super(name, target, url);
+        super(name, target, url, "");
         this.imageUrl = imageUrl;
     }
 
