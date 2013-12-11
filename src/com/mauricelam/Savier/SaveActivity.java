@@ -101,7 +101,7 @@ public class SaveActivity extends Activity {
 
     private void openGoalDetail(Goal goal, View v, int position) {
     	Intent intent = new Intent(this, GoalDetailActivity.class);
-       	intent.putExtra("goal", goal);
+       	intent.putExtra("goal", goal.getID());
        	
         startActivity(intent);
     }

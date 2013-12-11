@@ -34,7 +34,8 @@
             android:parentActivityName="com.mauricelam.Savier.SaveActivity" />
         <activity
             android:name="com.mauricelam.Savier.GoalDetailActivity"
-            android:label="@string/title_activity_goal_detail" >
+            android:label="@string/title_activity_goal_detail"
+            android:parentActivityName="com.mauricelam.Savier.SaveActivity">
         </activity>
         <activity
             android:name="com.mauricelam.Savier.PersonalInfoActivity"

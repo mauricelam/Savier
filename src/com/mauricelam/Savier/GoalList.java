@@ -72,6 +72,15 @@ public class GoalList extends WeakObservable {
         return list.get(index);
     }
 
+    public Goal get(String id) {
+        for (Goal goal : list) {
+            if (id.equals(goal.getID())) {
+                return goal;
+            }
+        }
+        return null;
+    }
+
     // Should be called after modifying any goals
     public void commitChanges() {
         this.onListChange();
@@ -81,7 +90,7 @@ public class GoalList extends WeakObservable {
         SharedPreferences prefs = context.getSharedPreferences("goals", Context.MODE_PRIVATE);
         Storage storage = new Storage(prefs);
         storage.putObject("goals", list, GOAL_LIST_TYPE);
-        Log.e("Savier list", "Dataset changed");
+        Log.d("Savier list", "Dataset changed");
         this.setChanged();
         this.notifyObservers();
     }

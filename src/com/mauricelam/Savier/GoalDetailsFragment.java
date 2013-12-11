@@ -24,8 +24,9 @@ public class GoalDetailsFragment extends Fragment implements Observer{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);       
-        this.goal = (Goal) getArguments().getSerializable("goal");
+        super.onCreate(savedInstanceState);
+        String goalID = getArguments().getString("goal");
+        this.goal = GoalList.instance(getActivity()).get(goalID);
         goal.addObserver(this);
     }
 
@@ -43,15 +44,15 @@ public class GoalDetailsFragment extends Fragment implements Observer{
        savingsTextView.setText("Saved: " + goal.getSavedString() + " / " + goal.getTargetString());
        
        TextView amazonlinkTextView = (TextView) view.findViewById(R.id.amazonlink);
-       if (goal.getUrl() != null) {
-           amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getUrl() + "\">" + "View on Amazon" + "</a>"));
+       if (goal.getURL() != null) {
+           amazonlinkTextView.setText(Html.fromHtml("<a href=\""+ goal.getURL() + "\">" + "View on Amazon" + "</a>"));
        } else {
            amazonlinkTextView.setText("");
        }
        amazonlinkTextView.setClickable(true);
        amazonlinkTextView.setMovementMethod (LinkMovementMethod.getInstance());
        TextView descTextView = (TextView) view.findViewById(R.id.description);
-       descTextView.setText(goal.getDescription());
+       descTextView.setText(goal.getDesc());
        
         GoalView goalView = (GoalView) view.findViewById(R.id.goalview);
         
@@ -75,10 +76,10 @@ public class GoalDetailsFragment extends Fragment implements Observer{
         return view;
     }
 
-    public static GoalDetailsFragment newInstance(Goal goal) {
+    public static GoalDetailsFragment newInstance(String goalID) {
         GoalDetailsFragment fragment = new GoalDetailsFragment();
         Bundle args = new Bundle();
-        args.putSerializable("goal", goal);
+        args.putString("goal", goalID);
         fragment.setArguments(args);
 
         return fragment;
@@ -90,6 +91,6 @@ public class GoalDetailsFragment extends Fragment implements Observer{
         TextView nameView = (TextView) root.findViewById(R.id.name);
         nameView.setText(goal.getName());
         TextView descriptionView = (TextView) root.findViewById(R.id.description);
-		descriptionView.setText(goal.getDescription());
+		descriptionView.setText(goal.getDesc());
 	}
 }

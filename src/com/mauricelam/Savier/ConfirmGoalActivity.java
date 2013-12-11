@@ -32,15 +32,21 @@ public class ConfirmGoalActivity extends Activity {
 	
 	private AmazonGoal amazonGoal;
 	private String customGoalName = null;
-	
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_add_goal);
         Bundle bundle = getIntent().getExtras();
-		String productID = new String(bundle.getString("ProductID"));
-		AmazonProductLookup amazonLookup = new AmazonProductLookup(productID);
-		Map<String, String> productInfo = amazonLookup.lookup();
-		this.itemTitle = productInfo.get("Title");
+
+
+        String productID = bundle.getString("ProductID");
+        AmazonProductLookup amazonLookup = new AmazonProductLookup(productID);
+        Map<String, String> productInfo = amazonLookup.lookup();
+        if (productInfo.get("Price") == null) {
+            return;
+        }
+        this.itemTitle = productInfo.get("Title");
 		this.itemPriceFormatted = productInfo.get("Price");
 		this.itemImageURL = productInfo.get("ImageURL");
 		this.itemURL = productInfo.get("URL");
@@ -61,11 +67,6 @@ public class ConfirmGoalActivity extends Activity {
 		goalURL.setText(itemURL);
 		goalDescription.setText(itemDescription);
 		goalView.setGoal(amazonGoal);
-
-		
-		Log.d("New Goal Title", itemTitle);
-		Log.d("New Goal Description", itemDescription);
-
     }
 
     @Override

@@ -65,8 +65,8 @@ public class AmazonGoal extends Goal {
 		this.imageURL = imageURL;
 	}
 
-	public String getDescription() {
-		return super.getDescription();
+	public String getDesc() {
+		return super.getDesc();
 	}
 	
 }

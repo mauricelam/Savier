@@ -17,15 +17,15 @@ public class GoalDetailActivity extends FragmentActivity implements ActionBar.Ta
     //SectionsPagerAdapter mSectionsPagerAdapter;
 	GoalPagerAdapter goalPageAdapter;
 	ViewPager mViewPager;
-	
-	private Goal goal;
 
+    private String goalID;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        this.goal = (Goal) getIntent().getExtras().getSerializable("goal");
-        System.out.println("Goal Received :"+this.goal.getName());
+        goalID = getIntent().getExtras().getString("goal");
+        System.out.println("Goal Received : " + goalID);
 		setContentView(R.layout.activity_goal_detail);
         
 		// Set up the action bar.
@@ -102,13 +102,13 @@ public class GoalDetailActivity extends FragmentActivity implements ActionBar.Ta
 			
 			switch(page){
 			case 0:
-				GoalDetailsFragment detailsFragment = GoalDetailsFragment.newInstance(goal);
+				GoalDetailsFragment detailsFragment = GoalDetailsFragment.newInstance(goalID);
 				return detailsFragment;
 			case 1:
-				GoalEditFragment editFragment = GoalEditFragment.newInstance(goal);
+				GoalEditFragment editFragment = GoalEditFragment.newInstance(goalID);
 				return editFragment;
 			case 2:
-				GoalHistoryFragment historyFragment = GoalHistoryFragment.newInstance(goal);
+				GoalHistoryFragment historyFragment = GoalHistoryFragment.newInstance(goalID);
 				return historyFragment;
 			}
 			

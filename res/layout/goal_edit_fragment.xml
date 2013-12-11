@@ -39,30 +39,20 @@
             android:layout_height="wrap_content"
             android:gravity="left|top"
       		android:inputType="textMultiLine"
-            android:text="@string/lorem"
             android:id="@+id/editdescription"
             android:maxLines="10"
             android:layout_alignParentLeft="true" android:layout_below="@+id/goalview"
             android:layout_alignRight="@+id/editname" android:padding="5dp"/>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/editdescription" android:gravity="center">
-
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SAVE"
-                android:id="@+id/save_button" android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/delete_button"
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_alignRight="@+id/editname" android:layout_below="@+id/editdescription"/>
+    <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DELETE GOAL" />
-       
-    </LinearLayout>
+            android:text="Save"
+            android:id="@+id/save_button" android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/delete_button" android:layout_below="@+id/editdescription"/>
 </RelativeLayout>

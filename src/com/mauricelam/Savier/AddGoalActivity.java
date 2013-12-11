@@ -20,17 +20,12 @@ import android.widget.Toast;
 public class AddGoalActivity extends Activity {
     private boolean enableAddGoal = false;
 
-    // TODO: show a loading indicator while the web page is loading (instead of blank page)
     private WebView webView;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setProgressBarIndeterminateVisibility(true);
         setContentView(R.layout.add_goal);
-
-        // FIXME: Should be set to enabled only if we detect Amazon item ID
-        
-        //setAddGoalEnabled(false);
     }
 
     @Override
@@ -113,7 +108,7 @@ public class AddGoalActivity extends Activity {
                     startActivity(intent);
                     return true;
                 } else {
-                	Toast.makeText(getBaseContext(), "You have to go to a product page.", Toast.LENGTH_LONG).show();
+                	Toast.makeText(getBaseContext(), "You have to go to a product page.", Toast.LENGTH_SHORT).show();
                 }
             	
             default:

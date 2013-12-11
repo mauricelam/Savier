@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Observable;
@@ -189,12 +190,17 @@ public class GoalView extends ImageView implements Observer {
     private Drawable drawableFromUrl(String url) throws IOException {
         Bitmap x;
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.connect();
-        InputStream input = connection.getInputStream();
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.connect();
+            InputStream input = connection.getInputStream();
 
-        x = BitmapFactory.decodeStream(input);
-        return new BitmapDrawable(getResources(), x);
+            x = BitmapFactory.decodeStream(input);
+            return new BitmapDrawable(getResources(), x);
+        } catch (MalformedURLException e) {
+            Log.w("Savier Malformed URL", e.getMessage() + "  --  " + url);
+            throw e;
+        }
     }
 
     public String getImageURL() {
@@ -247,6 +253,10 @@ public class GoalView extends ImageView implements Observer {
         this.invalidate();
     }
 
+    public float getProgress() {
+        return progress;
+    }
+
     public void setProgressAnimated(float progress, boolean animated) {
         if (animated) {
             ObjectAnimator anim = ObjectAnimator.ofFloat(this, "progress", progress);
@@ -260,6 +270,10 @@ public class GoalView extends ImageView implements Observer {
     public void setDetailOpacity(int detailOpacity) {
         this.detailOpacity = detailOpacity;
         this.invalidate();
+    }
+
+    public int getDetailOpacity() {
+        return this.detailOpacity;
     }
 
     private class ImageLoader extends AsyncTask<String, Void, Drawable> {

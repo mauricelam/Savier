@@ -18,7 +18,7 @@ public abstract class Goal extends WeakObservable implements Serializable {
     private int saved = 0;
     private String name;
     private String url;
-    private String description;
+    private String desc;
 
     private String id;
 
@@ -30,18 +30,18 @@ public abstract class Goal extends WeakObservable implements Serializable {
         }
     }
 
-    public Goal(String name, int target, String url, String description) {
+    public Goal(String name, int target, String url, String desc) {
         super();
         Log.d("Savier goal", "construct");
         this.target = target;
         this.name = name;
         this.url = url;
         this.id = UUID.randomUUID().toString();
-        this.description = description;
+        this.desc = desc;
     }
 
-    public Goal(String name, double target, String url, String description) {
-        this(name, (int) (target * 100), url, description);
+    public Goal(String name, double target, String url, String desc) {
+        this(name, (int) (target * 100), url, desc);
     }
 
     public abstract String getImageURL();
@@ -81,7 +81,7 @@ public abstract class Goal extends WeakObservable implements Serializable {
         this.notifyObservers();
     }
 
-    public String getUrl() {
+    public String getURL() {
         return url;
     }
 
@@ -89,14 +89,19 @@ public abstract class Goal extends WeakObservable implements Serializable {
         this.url = url;
     }
 
-	public String getDescription() {
-		return description;
+	public String getDesc() {
+		return desc;
 	}
-	public void setDescription(String description){
-		this.description = description;
+
+	public void setDesc(String desc){
+		this.desc = desc;
 		this.setChanged();
 	    this.notifyObservers();
 	}
+
+    public String getID() {
+        return this.id;
+    }
 
     @Override
     public boolean equals(Object o) {
