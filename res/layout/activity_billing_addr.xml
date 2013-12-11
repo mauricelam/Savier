@@ -1,101 +1,109 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".BillingAddrActivity" >
-  <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:paddingTop="12dp"
-        
-         />
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".BillingAddrActivity" >
+    <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:paddingTop="12dp"
+
+            />
 
     <TextView
-        android:id="@+id/billing_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/progressBar2"
-        android:layout_alignParentLeft="true"
-		android:paddingLeft="5dp"
-        android:layout_marginBottom="16dp"
-        
-        android:text="@string/enter_billing_info"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
- <EditText
-        android:id="@+id/edit_billing_address1"
-        android:hint="@string/default_billing_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progressBar2"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        android:focusable="true"  />
- <EditText
-        android:id="@+id/edit_billing_address2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_billing_address1"
-        android:layout_below="@+id/edit_billing_address1"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        android:hint="@string/default_address_line2" />
-
-    <EditText
-        android:id="@+id/edit_city1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="14dp"
-        android:maxWidth="28dp"
-        android:layout_alignLeft="@+id/edit_billing_address2"
-        android:layout_below="@+id/edit_billing_address2"
-        android:ems="10"
-        android:hint="@string/default_city"
-        android:inputType="textPostalAddress" />
-    <EditText
-        android:id="@+id/edit_state1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/edit_city1"
-        android:hint="@string/default_state"
-        android:layout_below="@+id/edit_billing_address2"
-        android:ems="10"
-        android:inputType="textPostalAddress" />
-
-    <EditText
-        android:id="@+id/edit_zip1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_city1"
-        android:ems="5"
-        android:hint="@string/default_zip"
-        android:inputType="number"        android:maxWidth="5dp" />
-
-      <Button
-        android:id="@+id/submit_billing_info_button"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/edit_zip1"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:layout_alignParentRight="true"
-        android:text="@string/next" />
-    <ImageView
+            android:id="@+id/billing_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView" android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/edit_billing_address1"
-            android:src="@drawable/stamp"/>
+            android:layout_alignBottom="@+id/progressBar2"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="5dp"
+            android:layout_marginBottom="16dp"
+
+            android:text="@string/enter_billing_info"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    <RelativeLayout android:layout_width="237dp" android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/progressBar2" android:layout_below="@+id/progressBar2"
+                    android:layout_alignParentRight="true" android:background="@color/action_bar_gray"
+                    android:id="@+id/relativeLayout" android:padding="10dp">
+        <EditText
+                android:id="@+id/edit_billing_address1"
+                android:hint="@string/default_billing_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:inputType="textPostalAddress"
+                android:focusable="true" android:textColor="@android:color/primary_text_dark"
+                android:textColorHint="@android:color/secondary_text_dark"/>
+        <EditText
+                android:id="@+id/edit_billing_address2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/edit_billing_address1"
+                android:layout_below="@+id/edit_billing_address1"
+                android:ems="10"
+                android:inputType="textPostalAddress"
+                android:hint="@string/default_address_line2" android:textColor="@android:color/primary_text_dark"
+                android:textColorHint="@android:color/secondary_text_dark"/>
+
+        <EditText
+                android:id="@+id/edit_city1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="14dp"
+                android:maxWidth="28dp"
+                android:layout_alignLeft="@+id/edit_billing_address2"
+                android:layout_below="@+id/edit_billing_address2"
+                android:ems="10"
+                android:hint="@string/default_city"
+                android:inputType="textPostalAddress" android:textColor="@android:color/primary_text_dark"
+                android:textColorHint="@android:color/secondary_text_dark"/>
+        <EditText
+                android:id="@+id/edit_state1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/edit_city1"
+                android:hint="@string/default_state"
+                android:layout_below="@+id/edit_billing_address2"
+                android:ems="10"
+                android:inputType="textPostalAddress" android:textColor="@android:color/primary_text_dark"
+                android:textColorHint="@android:color/secondary_text_dark"/>
+
+        <EditText
+                android:id="@+id/edit_zip1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/edit_city1"
+                android:ems="5"
+                android:hint="@string/default_zip"
+                android:inputType="number"        android:maxWidth="5dp"
+                android:textColor="@android:color/primary_text_dark"
+                android:textColorHint="@android:color/secondary_text_dark"/>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView" android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/edit_billing_address1"
+                android:src="@drawable/stamp"/>
+    </RelativeLayout>
+    <Button
+            android:id="@+id/submit_billing_info_button"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text="@string/next" android:layout_alignRight="@+id/progressBar2"
+            android:layout_below="@+id/relativeLayout"/>
 </RelativeLayout>
