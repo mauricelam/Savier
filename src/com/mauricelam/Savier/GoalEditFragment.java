@@ -1,5 +1,7 @@
 package com.mauricelam.Savier;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -72,13 +74,36 @@ public class GoalEditFragment extends Fragment {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-             GoalList list = GoalList.instance(getActivity());
+             final GoalList list = GoalList.instance(getActivity());
             // System.out.println(list.size());
-             list.remove(goal);
+             AlertDialog.Builder dialog = new AlertDialog.Builder( GoalEditFragment.this.getActivity());
+             dialog.setTitle("Delete Goal");
+             dialog.setMessage("Do you want to delete goal ?");
+             dialog.setCancelable (false);
+             dialog.setPositiveButton("Ok",
+                     new DialogInterface.OnClickListener () {
+                 public void onClick (DialogInterface dialog, int buttonId) {
+                	 
+                	deleteFromList(list, goal);
+                     /*System.out.println(list.size());
+                     System.out.println("Goal deleted");*/
+                     GoalEditFragment.this.getActivity().finish();
+                 }
+             });
+             dialog.setNegativeButton("Cancel",
+                     new DialogInterface.OnClickListener () {
+                 public void onClick (DialogInterface dialog, int buttonId) {
+                     
+                 }
+             });
+             dialog.setIcon (android.R.drawable.ic_dialog_alert);
+             dialog.show();
+         
+           /*  list.remove(goal);
              list.commitChanges();
-             /*System.out.println(list.size());
-             System.out.println("Goal deleted");*/
-             GoalEditFragment.this.getActivity().finish();
+             System.out.println(list.size());
+             System.out.println("Goal deleted");
+             GoalEditFragment.this.getActivity().finish();*/
          }
      });
         
@@ -94,5 +119,8 @@ public class GoalEditFragment extends Fragment {
         return fragment;
     }
 	
-
+    public static void deleteFromList(GoalList list, Goal goal){
+		 list.remove(goal);
+        list.commitChanges();
+	}
 }

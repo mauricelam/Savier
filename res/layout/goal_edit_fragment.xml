@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/editamazonlink"
             android:layout_toRightOf="@+id/goalview" android:layout_below="@+id/editsavings"
-            android:gravity="center_vertical|left" android:textSize="12sp"
+            android:gravity="center_vertical|left" android:textSize="16sp"
             android:layout_alignParentRight="true" android:layout_marginLeft="5dp"/>
     <EditText
             android:layout_width="wrap_content"
