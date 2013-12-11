@@ -1,5 +1,6 @@
 package com.mauricelam.Savier;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.DragEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -30,7 +32,8 @@ import java.util.TimerTask;
 public class GoalView extends ImageView implements Observer {
 
     private Goal goal;
-    private boolean showingDetail;
+    private float progress;
+    private int detailOpacity = 0;
 
     private Paint progressPaint;
     private Paint paint;
@@ -86,6 +89,7 @@ public class GoalView extends ImageView implements Observer {
         this.goal = goal;
         this.setImageURL(goal.getImageURL());
         this.goal.addWeakObserver(this);
+        this.progress = (float) goal.getPercentage();
     }
 
     public Goal getGoal() {
@@ -138,9 +142,11 @@ public class GoalView extends ImageView implements Observer {
         final float radius = Math.min(halfWidth, halfHeight) - strokeWidth;
 
         // Draw amount saved
-        if (showingDetail) {
+        if (detailOpacity > 0) {
             Bitmap arrow = BitmapFactory.decodeResource(getResources(), R.drawable.goalview_arrow);
-            canvas.drawBitmap(arrow, width - arrowSize, height - arrowSize, null);
+            paint.setAlpha(detailOpacity);
+            canvas.drawBitmap(arrow, width - arrowSize, height - arrowSize, paint);
+            paint.setAlpha(255);
         }
 
         canvas.drawCircle(halfWidth, halfHeight, radius, paint);
@@ -150,25 +156,22 @@ public class GoalView extends ImageView implements Observer {
             canvas.drawBitmap(croppedBitmap, 0, 0, null);
         }
 
-        if (showingDetail) {
+        if (detailOpacity > 0) {
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.argb(200, 0, 0, 0));
+            paint.setColor(Color.argb((int) (detailOpacity * 0.8), 0, 0, 0));
             canvas.drawArc(circle, 270, 360, false, paint);
 
-            paint.setColor(Color.WHITE);
+            paint.setColor(Color.argb(detailOpacity, 255, 255, 255));
             paint.setTextSize(30);
             paint.setTextAlign(Paint.Align.CENTER);
             int xPos = (width / 2);
             int yPos = (int) ((height / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
 
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            String amountString = formatter.format(goal.getSaved() / 100.0);
-            canvas.drawText(amountString, xPos, yPos, paint);
+            canvas.drawText(goal.getSavedString(), xPos, yPos, paint);
 
             yPos = (int) ((height / 2) - paint.ascent() + 10);
             paint.setTextSize(20);
-            String targetString = formatter.format(goal.getTarget() / 100.0);
-            canvas.drawText("/ " + targetString, xPos, yPos, paint);
+            canvas.drawText("/ " + goal.getTargetString(), xPos, yPos, paint);
         }
 
         circle.set(halfWidth - radius, halfHeight - radius, halfWidth + radius, halfHeight + radius);
@@ -177,7 +180,7 @@ public class GoalView extends ImageView implements Observer {
         canvas.drawArc(circle, 270, 360, false, progressPaint);
 
         if (goal != null) {
-            float angle = (float) (goal.getPercentage() * 360);
+            float angle = progress * 360;
             progressPaint.setColor(HoloColor.BLUE_LIGHT);
             canvas.drawArc(circle, 270, angle, false, progressPaint);
         }
@@ -207,15 +210,18 @@ public class GoalView extends ImageView implements Observer {
     public void update(Observable observable, Object o) {
         Log.w("Savier goalview", "Updated");
         this.invalidate();
+        if (goal.getPercentage() != progress) {
+            this.setProgressAnimated((float) goal.getPercentage(), true);
+        }
     }
 
     public boolean isShowingDetail() {
-        return showingDetail;
+        return detailOpacity == 255;
     }
 
     private void setShowingDetail(boolean showing) {
-        this.showingDetail = showing;
-        this.postInvalidate();
+        int dest = showing ? 255 : 0;
+        ObjectAnimator.ofInt(this, "detailOpacity", this.detailOpacity, dest).setDuration(200).start();
     }
 
     public void showDetail() {
@@ -224,11 +230,37 @@ public class GoalView extends ImageView implements Observer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                setShowingDetail(false);
+                post(hideDetail);
             }
-        }, 5000);
+        }, 3000);
     }
 
+    private Runnable hideDetail = new Runnable() {
+        @Override
+        public void run() {
+            setShowingDetail(false);
+        }
+    };
+
+    public void setProgress(float progress) {
+        this.progress = progress;
+        this.invalidate();
+    }
+
+    public void setProgressAnimated(float progress, boolean animated) {
+        if (animated) {
+            ObjectAnimator anim = ObjectAnimator.ofFloat(this, "progress", progress);
+            anim.setDuration(500);
+            anim.start();
+        } else {
+            this.setProgress(progress);
+        }
+    }
+
+    public void setDetailOpacity(int detailOpacity) {
+        this.detailOpacity = detailOpacity;
+        this.invalidate();
+    }
 
     private class ImageLoader extends AsyncTask<String, Void, Drawable> {
 

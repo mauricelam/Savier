@@ -81,6 +81,7 @@ public class SetupConfirmActivity extends Activity {
 		startActivity(intent);
 		Toast.makeText(this, "User Data Saved", Toast.LENGTH_SHORT).show();
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
