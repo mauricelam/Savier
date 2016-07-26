@@ -17,9 +17,9 @@ import com.amazon.advertising.api.sample.SignedRequestsHelper;
 
 public class AmazonProductLookup {
 
-    private final String SECRET_KEY = "9MBo0ETT15LZ9wJOcPI2dI0iH+sVauLPSgTZIhMT";
-    private final String AWS_KEY = "AKIAIZABATABRL7L45MQ";
-    private final String ASSOCIATE_TAG = "savier05-20";
+    private final String SECRET_KEY = "SECRET_KEY";
+    private final String AWS_KEY = "AWS_KEY";
+    private final String ASSOCIATE_TAG = "ASSOCIATE_TAG";
 
     private String productID;
     private String itemTitle = null;
